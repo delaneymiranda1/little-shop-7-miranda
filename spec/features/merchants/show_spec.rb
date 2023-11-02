@@ -50,11 +50,26 @@ RSpec.describe Merchant, type: :feature do
       end
     end
   end
-
+  
   describe "US3. As a merchant, when I visit my merchant dashboard ('/merchants/:merchant_id/dashboard'" do
     it "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
-      visit "/merchants/#{@merchant_list.first.id}/dashboard"
-      
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      customer_list = create_list(:customer, 10)
+      invoice_list = []
+      customer_list.each do |customer|
+        invoice_list << create(:invoice, customer: customer)
+      end
+      invoice_item_list = []
+      invoice_list.each do |invoice|
+        invoice_item_list << create(:invoice_item, invoice: invoice, item: item)
+      end
+      transaction_list = []
+      1000.times do
+        transaction_list << create(:transaction, invoice: invoice_list.sample)
+      end
+      visit "/merchants/#{merchant.id}/dashboard"
+      require 'pry'; binding.pry
     end
 
     it "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
