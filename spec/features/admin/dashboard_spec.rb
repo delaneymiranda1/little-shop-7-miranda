@@ -11,7 +11,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
       it "" do
         visit "/admin"
 
-        expect(page).to have_content("Welcome to the Admin Dashboard, Boss ")
+        expect(page).to have_content("Welcome to the Admin Dashboard, Boss")
       
       end
     end

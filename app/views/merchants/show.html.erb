@@ -7,3 +7,12 @@
 
 <h3><%= link_to "Merchant Items Index", "/merchants/#{@merchant.id}/items" %></h3>
 <h3><%= link_to "Merchant Invoices Index", "/merchants/#{@merchant.id}/invoices" %></h3>
+
+<ul>
+  <section id="items_shipped">
+    <p><%= @merchant.items_to_ship.each do |item| %>
+      <li><%= item.name %></li>
+    <% end %>
+    </p>
+  </section>
+</ul>
