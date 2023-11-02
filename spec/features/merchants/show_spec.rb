@@ -35,4 +35,16 @@ RSpec.describe Merchant, type: :feature do
       end
     end
   end
+
+  describe "US3. As a merchant, when I visit my merchant dashboard ('/merchants/:merchant_id/dashboard'" do
+    it "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      
+    end
+
+    it "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+      
+    end
+  end
 end
