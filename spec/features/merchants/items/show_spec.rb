@@ -13,7 +13,7 @@ RSpec.describe 'Merchant Items Show Page', type: :feature do
       visit "/merchants/#{@merchant_1.id}/items"
       click_link @item_1.name
 
-      expect(current_path).to eq("/merchants/#{@merchant_1.id}/#{@item_1.id}")
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/items/#{@item_1.id}")
 
       expect(page).to have_content(@item_1.name)
       expect(page).to have_content(@item_1.description)
