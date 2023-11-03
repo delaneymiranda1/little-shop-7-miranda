@@ -17,7 +17,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
     end
   end
 
-  describe "US24. As an admin, when I visit the admin dashboard ('/admin')" do
+  describe "US21. As an admin, when I visit the admin dashboard ('/admin')" do
     describe "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with any merchant" do
       it "And next to each customer name I see the number of successful transactions they have conducted" do
         @merchant1 = Merchant.create(name: "Spongebob")
