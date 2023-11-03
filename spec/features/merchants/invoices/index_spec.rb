@@ -20,7 +20,7 @@ RSpec.describe "Merchants Invoices Index", type: :feature do
   describe "US14. When I visit my merchant's invoices index " do 
     it "then I see all of the invoices that include at least one of my merchant's items and its ID" do
       visit "/merchants/#{@merchant1.id}/invoices"
-      save_and_open_page
+    
       expect(page).to have_content("#{@invoice1.id}")
       expect(page).to have_content("#{@invoice2.id}")
     end
