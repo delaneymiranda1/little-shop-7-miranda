@@ -1,1 +1,6 @@
 <h1> Welcome to the Admin Dashboard, Boss </h1>
+
+<h5><%= "Top 5 Customers, # of Transactions" %></h5>
+  <% Merchant.top_five_customers.each do |customer| %>
+    <%= "#{customer.first_name} #{customer.last_name}: #{customer.successful_transactions}" %>
+  <% end %>
