@@ -49,4 +49,37 @@ RSpec.describe "Admins Invoices Show", type: :feature do
       expect(page).to have_content("#{@customer3.last_name}")
     end
   end 
+
+  #   34. Admin Invoice Show Page: Invoice Item Information
+
+  # As an admin
+  # When I visit an admin invoice show page (/admin/invoices/:invoice_id)
+  # Then I see all of the items on the invoice including:
+  # - Item name
+  # - The quantity of the item ordered
+  # - The price the Item sold for
+  # - The Invoice Item status
+
+  describe "US34. When I visit my admin's invoices show " do 
+    it "then I see all the items on that invoice and their attributes" do
+      visit "/admin/invoices/#{@invoice1.id}"
+      
+      expect(page).to have_content("#{@item1.name}")
+      expect(page).to have_content("#{@invoiceitem1.quantity}")
+      expect(page).to have_content("#{@item1.unit_price}")
+      expect(page).to have_content("#{@invoiceitem1.status}")
+      
+      expect(page).to have_content("#{@item3.name}")
+      expect(page).to have_content("#{@invoiceitem3.quantity}")
+      expect(page).to have_content("#{@item3.unit_price}")
+      expect(page).to have_content("#{@invoiceitem3.status}")
+
+      visit "/admin/invoices/#{@invoice3.id}"
+
+      expect(page).to have_content("#{@item4.name}")
+      expect(page).to have_content("#{@invoiceitem4.quantity}")
+      expect(page).to have_content("#{@item4.unit_price}")
+      expect(page).to have_content("#{@invoiceitem4.status}")
+    end
+  end
 end
