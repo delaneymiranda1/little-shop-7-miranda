@@ -51,7 +51,6 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       expect(page).to have_content("#{@invoiceitem3.quantity}")
       expect(page).to have_content("#{@item3.unit_price}")
       expect(page).to have_content("#{@invoiceitem3.status}")
-    
     end
   end
 end
