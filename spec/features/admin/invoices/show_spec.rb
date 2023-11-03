@@ -25,15 +25,6 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     @invoiceitem4 = InvoiceItem.create(quantity: 4, status: 1, invoice_id: @invoice3.id, item_id: @item4.id)
   end
 
-  #   33. Admin Invoice Show Page
-
-  # As an admin,
-  # When I visit an admin invoice show page (/admin/invoices/:invoice_id)
-  # Then I see information related to that invoice including:
-  # - Invoice id
-  # - Invoice status
-  # - Invoice created_at date in the format "Monday, July 18, 2019"
-  # - Customer first and last name
   describe "US33. When I visit my admin's invoices show " do 
     it "then I see information related to that invoice" do
       visit "/admin/invoices/#{@invoice1.id}"
