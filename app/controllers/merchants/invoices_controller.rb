@@ -10,6 +10,7 @@ class Merchants::InvoicesController < ApplicationController
     @invoice = @merchant.invoices.find(params[:invoice_id])
     @items = @invoice.items
     @invoice_items = @invoice.invoice_items.includes(:item)
+    @total_revenue = @invoice.invoice_items.sum('unit_price * quantity')
   end
 
 end
