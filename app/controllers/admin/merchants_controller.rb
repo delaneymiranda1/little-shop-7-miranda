@@ -4,5 +4,16 @@ class Admin::MerchantsController < ApplicationController
     @merchants = Merchant.all
   end
   
+  def disable
+    merchant = Merchant.find(params[:id])
+    merchant.update(enabled: false)
+    redirect_to '/admin/merchants'
+  end
+
+  def enable
+    merchant = Merchant.find(params[:id])
+    merchant.update(enabled: true)
+    redirect_to '/admin/merchants'
+  end
 
 end
