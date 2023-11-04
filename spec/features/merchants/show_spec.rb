@@ -2,23 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Merchant, type: :feature do 
   before(:each) do 
-
-    # @merchant_list = create_list(:merchant , 1)
-    # @item1 = create(:item, merchant: @merchant_list.sample)
-    # @customer_list = create_list(:customer, 10)
-    # @invoice_list = []
-    # 10.times do
-    #   @invoice_list << create(:invoice, customer: @customer_list.sample)
-    # end
-    # @invoice_item_list = []
-    # 10.times do
-    #   @invoice_item_list << create(:invoice_item, invoice: @invoice_list.sample, item: @item1)
-    # end
-    # @transaction_list = []
-    # 10.times do
-    #   @transaction_list << create(:transaction, invoice: @invoice_list.sample)
-    # end
-    
     @merchant1 = Merchant.create!(name: "Spongebob")
 
     @customer1 = Customer.create!(first_name: "Sandy", last_name: "Cheeks")
@@ -36,32 +19,6 @@ RSpec.describe Merchant, type: :feature do
     @invoice_item1 = InvoiceItem.create!(quantity: 4, unit_price: 40, status: 1, invoice_id: @invoice1.id, item_id: @item1.id)
     @invoice_item2 = InvoiceItem.create!(quantity: 4, unit_price: 36, status: 1, invoice_id: @invoice2.id, item_id: @item2.id)
     @invoice_item3 = InvoiceItem.create!(quantity: 4, unit_price: 48, status: 1, invoice_id: @invoice3.id, item_id: @item3.id)
-    # @merchant_1 = create(:merchant)
-
-    # @customer_1 = create(:customer)
-    # @customer_2 = create(:customer)
-    # @customer_3 = create(:customer)
-    # @customer_4 = create(:customer)
-    # @customer_5 = create(:customer)
-
-    # @item_1 = create(:item, merchant_id: @merchant_1.id)
-    # @item_2 = create(:item, merchant_id: @merchant_1.id)
-    # @item_3 = create(:item, merchant_id: @merchant_1.id)
-    # @item_4 = create(:item, merchant_id: @merchant_1.id)
-    # @item_5 = create(:item, merchant_id: @merchant_1.id)
-
-    # @invoice_1 = create(:invoice, customer_id: @customer_1.id)
-    # @invoice_2 = create(:invoice, customer_id: @customer_2.id)
-    # @invoice_3 = create(:invoice, customer_id: @customer_3.id)
-    # @invoice_4 = create(:invoice, customer_id: @customer_4.id)
-    # @invoice_5 = create(:invoice, customer_id: @customer_5.id)
-
-    # @invoice_item_1 = create(:invoice_item, item_id: @item_1.id, invoice_id: @invoice_1.id)
-    # @invoice_item_2 = create(:invoice_item, item_id: @item_2.id, invoice_id: @invoice_2.id)
-    # @invoice_item_3 = create(:invoice_item, item_id: @item_3.id, invoice_id: @invoice_3.id)
-    # @invoice_item_4 = create(:invoice_item, item_id: @item_4.id, invoice_id: @invoice_4.id)
-    # @invoice_item_5 = create(:invoice_item, item_id: @item_5.id, invoice_id: @invoice_5.id)
-
   end
 
   describe "visiting the admin/namespace show page" do 
@@ -88,21 +45,21 @@ RSpec.describe Merchant, type: :feature do
         # expect(current_path).to eq("/merchants/#{@merchant_list.first.id}/invoices")
       end
     end
-      it "next to each Item I see the id of the invoice that ordered my item and each 
+      xit "next to each Item I see the id of the invoice that ordered my item and each 
       invoice id is a link to my merchant's invoice show page" do
         visit "/merchants/#{@merchant1.id}/dashboard"
 
       end
     end
-  end
+  
 
   describe "US3. As a merchant, when I visit my merchant dashboard ('/merchants/:merchant_id/dashboard'" do
-    it "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
+    xit "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
       visit "/merchants/#{@merchant1.id}/dashboard"
       
     end
 
-    it "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
+    xit "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
       visit "/merchants/#{@merchant1.id}/dashboard"
       
     end
@@ -115,23 +72,30 @@ RSpec.describe Merchant, type: :feature do
     # In that section I see a list of the names of all of my items that
     # have been ordered and have not yet been shipped,
     # And next to each Item I see the id of the invoice that ordered my item
-    # And each invoice id is a link to my merchant's invoice show page
-
-    #enum for invoice needs to be "in progress" 
+    # And each invoice id is a link to my merchant's invoice show page 
 
   describe "US4. I see a section for 'Items Ready to Ship'" do
-    it " shows a list of names of all my items that have been ordered and
-    have not yet been shipped" do
+    it "shows a list of names of all my items that have been ordered and
+    have not yet been shipped and the id of the invoice that ordered my item" do
       visit "/merchants/#{@merchant1.id}/dashboard"
 
       within("#items_shipped") do
         expect(page).to have_content(@item1.name)
-        # expect(page).to have_content(@invoice1.id)
-        # expect(page).to have_link(@item1.invoice_id)
-        
-        # click_link(@item1.invoice_id)
-        # expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@item1.invoice_id}")
+        expect(page).to have_content(@invoice1.id)
+        expect(page).to have_link("Invoice ID: #{@invoice1.id}")
       end
     end
-    # built out the section and named a method, but need to work on how to reach it 
+
+    it "the id of the invoice that ordered my item is a link to my merchant's 
+    invoice show page" do
+      visit "/merchants/#{@merchant1.id}/dashboard"
+
+      within("#items_shipped") do  
+        click_link("Invoice ID: #{@invoice1.id}")
+      end
+
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}")
+    end
+  end
+  
 end

@@ -10,12 +10,12 @@
 
 <section id="items_shipped">
   <ul>
-    <% @merchant.items_to_ship.each do |item| %>
+    <% @merchant.items_to_ship.each do |invoice_item| %>
 
       <li>
-        <%= item.name %>
-        <%= link_to item.invoice_id, "/merchants/#{@merchants.id}/invoices/#{item.invoice_id}"%>
-        <%= item.invoice_created_at.strftime("%A, %B %d, %Y") %>
+        <%= invoice_item.item_name %>
+        <%= link_to "Invoice ID: #{invoice_item.invoice_id}", "/merchants/#{@merchant.id}/invoices/#{invoice_item.invoice_id}"%>
+        <%# invoice_item.invoice_created_at.strftime("%A, %B %d, %Y") %>
       </li>
     <% end %>
   </ul>
