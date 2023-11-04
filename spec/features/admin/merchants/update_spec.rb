@@ -9,7 +9,7 @@ RSpec.feature Merchant, type: :feature do
     it "When I click this link, I am taken to a page to edit this merchant, and I see a form  filled in with existing merchant attribute information" do
       visit "/admin/merchants/#{@merchant1.id}"
       click_link("Update Merchant 1")
-      expect(current_path).to eq("/admin/merchants/#{@merchant1}.edit")
+      expect(current_path).to eq("/admin/merchants/#{@merchant1.id}/edit")
       expect(find_field("Name").value).to eq(@merchant1.name)
     end
     
@@ -23,8 +23,6 @@ RSpec.feature Merchant, type: :feature do
       expect(current_path).to eq("/admin/merchants/#{@merchant1.id}")
       expect(page).to have_content("New Merchant Name")
       expect(page).to have_content("The information has been successfully updated")
-
-      
     end
   end
 end
