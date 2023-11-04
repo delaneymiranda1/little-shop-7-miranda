@@ -7,12 +7,22 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
   end
 
   describe "visiting the admin/namespace show page" do 
-    describe "" do
-      it "" do
+    describe "When I visit the admin dashboard" do
+      it "Then I see a header indicating I'm on the admin dashboard" do
         visit "/admin"
 
         expect(page).to have_content("Welcome to the Admin Dashboard, Boss")
       
+      end
+
+      it "I see a link to the admin merchants index, and I see a link to the admin invoices index" do
+        visit "/admin"
+        
+        click_link "Merchants Index"
+        expect(current_path).to eq("/admin/merchants")
+        visit "/admin"
+        click_link "Invoices Index"
+        expect(current_path).to eq("/admin/invoices")
       end
     end
   end
