@@ -4,6 +4,12 @@
   <% @items.each do |item| %>
     <li>
       <%= link_to item.name, "/merchants/#{@merchant.id}/items/#{item.id}" %>
+      <p>Status: <%= item.active? ? 'active' : 'inactive' %></p>
+      <% if item.active? %>
+        <%= button_to 'Disable', "/merchants/#{@merchant.id}/items/#{item.id}/disable", method: :patch %>
+      <% else %>
+        <%= button_to 'Enable', "/merchants/#{@merchant.id}/items/#{item.id}/enable", method: :patch %>
+      <% end %>
     </li>
   <% end %>
 </ul>

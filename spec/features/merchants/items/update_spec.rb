@@ -32,7 +32,6 @@ RSpec.feature "Merchant Item Update", type: :feature do
           click_button "Submit"
 
           expect(current_path).to eq("/merchants/#{@merchant1.id}/items/#{@item1.id}")
-save_and_open_page
           expect(page).to have_content("New Item Name")
           expect(page).to have_content("New Item Description")
           expect(page).to have_content("$9.99")

@@ -37,4 +37,18 @@ class Merchants::ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:name, :description, :unit_price)
   end
+
+  def enable
+    @merchant = Merchant.find(params[:merchant_id])
+    @item = @merchant.items.find(params[:id])
+    @item.update(active: true)
+    redirect_to "/merchants/#{@merchant.id}/items"
+  end
+
+  def disable
+    @merchant = Merchant.find(params[:merchant_id])
+    @item = @merchant.items.find(params[:id])
+    @item.update(active: false)
+    redirect_to "/merchants/#{@merchant.id}/items"
+  end
 end
