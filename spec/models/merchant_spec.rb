@@ -80,4 +80,14 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.top_five_customers.first.last_name).to eq("Puff")
     end
   end
+
+  describe '#enabled?' do
+    it 'returns the enabled status of the merchant' do
+      merchant = Merchant.create(name: "Test Merchant", enabled: true)
+      expect(merchant.enabled?).to eq(true)
+
+      merchant.update(enabled: false)
+      expect(merchant.enabled?).to eq(false)
+    end
+  end
 end

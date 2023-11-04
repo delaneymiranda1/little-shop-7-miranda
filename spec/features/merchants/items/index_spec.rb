@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Merchant items index page' do
   before(:each) do
-    @merchant1 = Merchant.create(name: 'Merchant 1')
-    @merchant2 = Merchant.create(name: 'Merchant 2')
+    @merchant1 = Merchant.create(name: 'Merchant 1', enabled: true)
+    @merchant2 = Merchant.create(name: 'Merchant 2', enabled: true)
 
     @item1 = @merchant1.items.create(name: 'Item 1', description: 'Description 1', unit_price: 1.00, active: true)
     @item2 = @merchant1.items.create(name: 'Item 2', description: 'Description 2', unit_price: 2.00, active: true)
@@ -33,7 +33,7 @@ RSpec.describe 'Merchant items index page' do
       visit "/merchants/#{@merchant1.id}/items"
 
       click_button('Disable', match: :first)
-save_and_open_page
+
       expect(current_path).to eq("/merchants/#{@merchant1.id}/items")
       expect(page).to have_content('Status: inactive')
       expect(page).to have_button('Enable', count: 1)
