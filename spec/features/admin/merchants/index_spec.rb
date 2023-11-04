@@ -1,11 +1,9 @@
 require 'rails_helper' 
 
-RSpec.describe "Admin Merchants Index", type: :feature do 
+RSpec.describe Merchant, type: :feature do 
   before(:each) do 
     @merchant1 = Merchant.create(name: "Spongebob")
     @merchant2 = Merchant.create(name: "Plankton")
-
-
   end
 
   describe "US24. When I visit my admin merchant index " do 
