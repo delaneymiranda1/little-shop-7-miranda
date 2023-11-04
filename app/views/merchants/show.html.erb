@@ -8,11 +8,15 @@
 <h3><%= link_to "Merchant Items Index", "/merchants/#{@merchant.id}/items" %></h3>
 <h3><%= link_to "Merchant Invoices Index", "/merchants/#{@merchant.id}/invoices" %></h3>
 
-<ul>
-  <section id="items_shipped">
-    <p><%= @merchant.items_to_ship.each do |item| %>
-      <li><%= item.name %></li>
+<section id="items_shipped">
+  <ul>
+    <% @merchant.items_to_ship.each do |item| %>
+
+      <li>
+        <%= item.name %>
+        <%= link_to item.invoice_id, "/merchants/#{@merchants.id}/invoices/#{item.invoice_id}"%>
+        <%= item.invoice_created_at.strftime("%A, %B %d, %Y") %>
+      </li>
     <% end %>
-    </p>
-  </section>
-</ul>
+  </ul>
+</section>
