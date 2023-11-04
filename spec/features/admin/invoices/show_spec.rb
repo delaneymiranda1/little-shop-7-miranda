@@ -1,6 +1,6 @@
 require 'rails_helper' 
 
-RSpec.describe "Merchants Invoices Show", type: :feature do 
+RSpec.describe "Admins Invoices Show", type: :feature do 
   before(:each) do 
     @merchant1 = Merchant.create(name: "Spongebob")
     @merchant2 = Merchant.create(name: "Plankton")
@@ -25,29 +25,45 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @invoiceitem4 = InvoiceItem.create(quantity: 4, status: 1, invoice_id: @invoice3.id, item_id: @item4.id)
   end
 
-  describe "US15. When I visit my merchant's invoices show " do 
+  describe "US33. When I visit my admin's invoices show " do 
     it "then I see information related to that invoice" do
-      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}"
+      visit "/admin/invoices/#{@invoice1.id}"
       expect(page).to have_content("#{@invoice1.id}")
       expect(page).to have_content("#{@invoice1.status}")
       expect(page).to have_content("#{@invoice1.created_at.strftime("%A, %B %d, %Y")}")
       expect(page).to have_content("#{@customer1.first_name}")
       expect(page).to have_content("#{@customer1.last_name}")
 
-      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice2.id}"
+      visit "/admin/invoices/#{@invoice2.id}"
       expect(page).to have_content("#{@invoice2.id}")
       expect(page).to have_content("#{@invoice2.status}")
       expect(page).to have_content("#{@invoice2.created_at.strftime("%A, %B %d, %Y")}")
       expect(page).to have_content("#{@customer2.first_name}")
       expect(page).to have_content("#{@customer2.last_name}")
+
+      visit "/admin/invoices/#{@invoice3.id}"
+      expect(page).to have_content("#{@invoice3.id}")
+      expect(page).to have_content("#{@invoice3.status}")
+      expect(page).to have_content("#{@invoice3.created_at.strftime("%A, %B %d, %Y")}")
+      expect(page).to have_content("#{@customer3.first_name}")
+      expect(page).to have_content("#{@customer3.last_name}")
     end
   end 
 
-  describe "US16. When I visit my merchant's invoices show " do 
+  #   34. Admin Invoice Show Page: Invoice Item Information
+
+  # As an admin
+  # When I visit an admin invoice show page (/admin/invoices/:invoice_id)
+  # Then I see all of the items on the invoice including:
+  # - Item name
+  # - The quantity of the item ordered
+  # - The price the Item sold for
+  # - The Invoice Item status
+
+  describe "US34. When I visit my admin's invoices show " do 
     it "then I see all the items on that invoice and their attributes" do
-      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}"
+      visit "/admin/invoices/#{@invoice1.id}"
       
-      # require 'pry'; binding.pry
       expect(page).to have_content("#{@item1.name}")
       expect(page).to have_content("#{@invoiceitem1.quantity}")
       expect(page).to have_content("#{@item1.unit_price}")
@@ -58,6 +74,12 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       expect(page).to have_content("#{@item3.unit_price}")
       expect(page).to have_content("#{@invoiceitem3.status}")
 
+      visit "/admin/invoices/#{@invoice3.id}"
+
+      expect(page).to have_content("#{@item4.name}")
+      expect(page).to have_content("#{@invoiceitem4.quantity}")
+      expect(page).to have_content("#{@item4.unit_price}")
+      expect(page).to have_content("#{@invoiceitem4.status}")
     end
   end
 end

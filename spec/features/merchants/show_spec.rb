@@ -24,25 +24,27 @@ RSpec.describe Merchant, type: :feature do
   describe "visiting the admin/namespace show page" do 
     describe "US1. When I visit my merchant dashboard" do
       it "Then I see the name of my merchant" do
-        visit "/merchants/#{@merchant1.id}/dashboard"
+        visit "/merchants/#{@merchant.id}/dashboard"
 
-        expect(page).to have_content("Name: #{@merchant1.name}")
+        expect(page).to have_content("Name: #{@merchant.name}")
+      
       end
     end
 
     describe "US2. Then I see a link to my merchant items index" do
       it "And I see a link to my merchant invoices index" do
-        visit "/merchants/#{@merchant1.id}/dashboard"
+        visit "/merchants/#{@merchant.id}/dashboard"
 
         expect(page).to have_link("Merchant Items Index")
         click_link("Merchant Items Index")
-        expect(current_path).to eq("/merchants/#{@merchant1.id}/items")
+        expect(current_path).to eq("/merchants/#{@merchant.id}/items")
 
-        visit "/merchants/#{@merchant1.id}/dashboard"
+        visit "/merchants/#{@merchant.id}/dashboard"
 
         expect(page).to have_link("Merchant Invoices Index")
         click_link("Merchant Invoices Index")
-        # expect(current_path).to eq("/merchants/#{@merchant_list.first.id}/invoices")
+        expect(current_path).to eq("/merchants/#{@merchant.first.id}/invoices")
+
       end
     end
       xit "next to each Item I see the id of the invoice that ordered my item and each 
@@ -52,50 +54,36 @@ RSpec.describe Merchant, type: :feature do
       end
     end
   
-
-  describe "US3. As a merchant, when I visit my merchant dashboard ('/merchants/:merchant_id/dashboard'" do
-    xit "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-      
-    end
-
-    xit "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-      
-    end
-  end
-   # 4. Merchant Dashboard Items Ready to Ship
-
-    # As a merchant
-    # When I visit my merchant dashboard (/merchants/:merchant_id/dashboard)
-    # Then I see a section for "Items Ready to Ship"
-    # In that section I see a list of the names of all of my items that
-    # have been ordered and have not yet been shipped,
-    # And next to each Item I see the id of the invoice that ordered my item
-    # And each invoice id is a link to my merchant's invoice show page 
-
-  describe "US4. I see a section for 'Items Ready to Ship'" do
-    it "shows a list of names of all my items that have been ordered and
-    have not yet been shipped and the id of the invoice that ordered my item" do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-
-      within("#items_shipped") do
-        expect(page).to have_content(@item1.name)
-        expect(page).to have_content(@invoice1.id)
-        expect(page).to have_link("Invoice ID: #{@invoice1.id}")
-      end
-    end
-
-    it "the id of the invoice that ordered my item is a link to my merchant's 
-    invoice show page" do
-      visit "/merchants/#{@merchant1.id}/dashboard"
-
-      within("#items_shipped") do  
-        click_link("Invoice ID: #{@invoice1.id}")
-      end
-
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}")
-    end
-  end
   
-end
+  describe "US3. As a merchant, when I visit my merchant dashboard ('/merchants/:merchant_id/dashboard'" do
+    it "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
+      visit "/merchants/#{@merchant.first.id}/dashboard"
+      
+    end
+
+    it "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
+      visit "/merchants/#{@merchant.first.id}/dashboard"
+      
+    end
+  end
+
+
+
+# merchant_list = create_list(:merchant , 10)
+# item_list = []
+# 30.times do
+#   item_list << create(:item, merchant: merchant_list.sample)
+# end
+# customer_list = create_list(:customer, 10)
+# invoice_list = []
+# 10.times do
+#   invoice_list << create(:invoice, customer: customer_list.sample)
+# end
+# invoice_item_list = []
+# 10.times do
+#   invoice_item_list << create(:invoice_item, invoice: invoice_list.sample, item: item_list.sample)
+# end
+# transaction_list = []
+# 100.times do
+#   transaction_list << create(:transaction, invoice: invoice_list.sample)
+# end

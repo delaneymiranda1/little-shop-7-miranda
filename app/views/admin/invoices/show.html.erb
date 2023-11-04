@@ -1,8 +1,8 @@
-<h1><b>Invoice ID: </b><%= @invoice.id %></h1>
+<h1> Admin Invoice Show Page</h1>
+<p><b>Invoice ID: </b><%= @invoice.id %></p>
 <p><b>Status: </b><%= @invoice.status %></p>
 <p><b>Created At:</b> <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
 <p><b>Customer Name:</b> <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
-
 
 <h3> <b>Items</b> </h3>
 
