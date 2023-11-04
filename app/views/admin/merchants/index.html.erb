@@ -8,4 +8,5 @@
   <% else %>
     <%= button_to 'Enable', admin_merchant_enable_path(merchant), method: :patch %>
   <% end %>
+  <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %></p>
 <% end %>

@@ -24,7 +24,6 @@ RSpec.describe Item, type: :model do
     end
   end
 
-
   describe '#active?' do
     it 'returns true if the item is active' do
       item = create(:item, active: true)
