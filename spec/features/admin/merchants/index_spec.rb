@@ -19,6 +19,7 @@ RSpec.describe Merchant, type: :feature do
   describe "US27. When I visit my admin merchant index" do
     it "next to each merchant name I see a button to disable or enable that merchant" do
       visit "/admin/merchants"
+
       expect(page).to have_button("Disable", count: 2)
       expect(page).to have_button("Enable", count: 0)
     end
@@ -29,6 +30,7 @@ RSpec.describe Merchant, type: :feature do
 
       click_button("Disable", match: :first)
       expect(current_path).to eq("/admin/merchants")
+
       expect(page).to have_button("Enable", count: 1)
       expect(page).to have_button("Disable", count: 1)
 
