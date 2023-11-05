@@ -20,4 +20,8 @@ class Merchant < ApplicationRecord
   def enabled?
     self.enabled
   end
+
+  def top_five_items
+    Item.joins(:transactions).select("items.id, items.name, sum(invoice_items.unit_price * invoice_items.quantity) as revenue").where("items.merchant_id = #{self.id} and transactions.result = 0").group('items.id').order(revenue: :desc).limit(5)
+  end
 end
