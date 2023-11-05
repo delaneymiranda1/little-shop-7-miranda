@@ -5,7 +5,6 @@ RSpec.describe Merchant, type: :feature do
 
     @merchant1 = Merchant.create(name: "Spongebob", enabled: true)
     @merchant2 = Merchant.create(name: "Plankton", enabled: true)
-
   end
 
   describe "US24. When I visit my admin merchant index " do 
@@ -31,7 +30,7 @@ RSpec.describe Merchant, type: :feature do
 
       click_button("Disable", match: :first)
       expect(current_path).to eq("/admin/merchants")
-      
+
       expect(page).to have_button("Enable", count: 1)
       expect(page).to have_button("Disable", count: 1)
 
