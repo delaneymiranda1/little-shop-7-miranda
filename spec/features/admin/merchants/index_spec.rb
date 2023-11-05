@@ -5,9 +5,6 @@ RSpec.describe Merchant, type: :feature do
 
     @merchant1 = Merchant.create(name: "Spongebob", enabled: true)
     @merchant2 = Merchant.create(name: "Plankton", enabled: true)
-
-    @merchant1 = Merchant.create(name: "Spongebob")
-    @merchant2 = Merchant.create(name: "Plankton")
   end
 
   describe "US24. When I visit my admin merchant index " do 

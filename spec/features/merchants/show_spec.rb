@@ -47,7 +47,7 @@ RSpec.describe Merchant, type: :feature do
 
       end
     end
-      xit "next to each Item I see the id of the invoice that ordered my item and each 
+      it "next to each Item I see the id of the invoice that ordered my item and each 
       invoice id is a link to my merchant's invoice show page" do
         visit "/merchants/#{@merchant.id}/dashboard"
 
