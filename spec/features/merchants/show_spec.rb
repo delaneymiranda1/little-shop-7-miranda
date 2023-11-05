@@ -2,15 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Merchant, type: :feature do 
   before(:each) do 
-    @merchant1 = Merchant.create!(name: "Spongebob")
+    @merchant = Merchant.create!(name: "Spongebob")
 
     @customer1 = Customer.create!(first_name: "Sandy", last_name: "Cheeks")
     @customer2 = Customer.create!(first_name: "Mermaid", last_name: "Man")
     @customer3 = Customer.create!(first_name: "Sandy", last_name: "Cheeks")
 
-    @item1 = Item.create!(name: "Krabby Patty", description: "Yummy", unit_price: 10, merchant_id: @merchant1.id)
-    @item2 = Item.create!(name: "Chum Burger", description: "Not As Yummy", unit_price: 9, merchant_id: @merchant1.id)
-    @item3 = Item.create!(name: "Krabby Patty with Jelly", description: "Damn Good", unit_price: 12, merchant_id: @merchant1.id)
+    @item1 = Item.create!(name: "Krabby Patty", description: "Yummy", unit_price: 10, merchant_id: @merchant.id)
+    @item2 = Item.create!(name: "Chum Burger", description: "Not As Yummy", unit_price: 9, merchant_id: @merchant.id)
+    @item3 = Item.create!(name: "Krabby Patty with Jelly", description: "Damn Good", unit_price: 12, merchant_id: @merchant.id)
 
     @invoice1 = Invoice.create!(status: 1, customer_id: @customer1.id)
     @invoice2 = Invoice.create!(status: 1, customer_id: @customer2.id)
@@ -43,13 +43,13 @@ RSpec.describe Merchant, type: :feature do
 
         expect(page).to have_link("Merchant Invoices Index")
         click_link("Merchant Invoices Index")
-        expect(current_path).to eq("/merchants/#{@merchant.first.id}/invoices")
+        expect(current_path).to eq("/merchants/#{@merchant.id}/invoices")
 
       end
     end
       xit "next to each Item I see the id of the invoice that ordered my item and each 
       invoice id is a link to my merchant's invoice show page" do
-        visit "/merchants/#{@merchant1.id}/dashboard"
+        visit "/merchants/#{@merchant.id}/dashboard"
 
       end
     end
@@ -57,33 +57,37 @@ RSpec.describe Merchant, type: :feature do
   
   describe "US3. As a merchant, when I visit my merchant dashboard ('/merchants/:merchant_id/dashboard'" do
     it "Then I see the names of my top 5 customers who have completed the largest number of successful transaction with my merchant" do
-      visit "/merchants/#{@merchant.first.id}/dashboard"
+      visit "/merchants/#{@merchant.id}/dashboard"
       
     end
 
     it "And next to each customer name I see the number of successful transactions they have conducted with my merchant" do
-      visit "/merchants/#{@merchant.first.id}/dashboard"
+      visit "/merchants/#{@merchant.id}/dashboard"
       
     end
   end
+  describe "US4. I see a section for 'Items Ready to Ship'" do
+    it "shows a list of names of all my items that have been ordered and
+    have not yet been shipped and the id of the invoice that ordered my item" do
+      visit "/merchants/#{@merchant.id}/dashboard"
 
+      within("#items_shipped") do
+        expect(page).to have_content(@item1.name)
+        expect(page).to have_content(@invoice1.id)
+        expect(page).to have_link("Invoice ID: #{@invoice1.id}")
+      end
+    end
 
+    it "the id of the invoice that ordered my item is a link to my merchant's 
+    invoice show page" do
+      visit "/merchants/#{@merchant.id}/dashboard"
 
-# merchant_list = create_list(:merchant , 10)
-# item_list = []
-# 30.times do
-#   item_list << create(:item, merchant: merchant_list.sample)
-# end
-# customer_list = create_list(:customer, 10)
-# invoice_list = []
-# 10.times do
-#   invoice_list << create(:invoice, customer: customer_list.sample)
-# end
-# invoice_item_list = []
-# 10.times do
-#   invoice_item_list << create(:invoice_item, invoice: invoice_list.sample, item: item_list.sample)
-# end
-# transaction_list = []
-# 100.times do
-#   transaction_list << create(:transaction, invoice: invoice_list.sample)
-# end
+      within("#items_shipped") do  
+        click_link("Invoice ID: #{@invoice1.id}")
+      end
+
+      expect(current_path).to eq("/merchants/#{@merchant.id}/invoices/#{@invoice1.id}")
+    end
+  end
+
+end
