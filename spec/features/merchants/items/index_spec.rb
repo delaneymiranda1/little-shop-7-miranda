@@ -110,11 +110,21 @@ RSpec.describe 'Merchant items index page' do
         it "Next to each item, I see 'Top selling date for was (date)" do
           visit("/merchants/#{@merchant1.id}/items")
           within("#TopFiveItems") do
-            expect("Item 6").to appear_before("Top selling date for was 04 Nov 2023")
-            expect("Item 5").to appear_before("Top selling date for was 03 Nov 2023")
-            expect("Item 3").to appear_before("Top selling date for was 03 Nov 2023")
-            expect("Item 4").to appear_before("Top selling date for was 04 Nov 2023")
-            expect("Item 1").to appear_before("Top selling date for was 04 Nov 2023")
+            within("#Item#{@item6.id}") do
+              expect("Item 6").to appear_before("Top selling date for was 04 Nov 2023")
+            end
+            within("#Item#{@item5.id}") do
+              expect("Item 5").to appear_before("Top selling date for was 03 Nov 2023")
+            end
+            within("#Item#{@item3.id}") do
+              expect("Item 3").to appear_before("Top selling date for was 03 Nov 2023")
+            end
+            within("#Item#{@item4.id}") do
+              expect("Item 4").to appear_before("Top selling date for was 04 Nov 2023")
+            end
+            within("#Item#{@item1.id}") do
+              expect("Item 1").to appear_before("Top selling date for was 03 Nov 2023")
+            end
           end
         end
       end
