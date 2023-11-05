@@ -19,10 +19,10 @@ RSpec.describe Merchant, type: :feature do
     @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
 
 
-    @invoiceitem1 = InvoiceItem.create(quantity: 3, status: 1, invoice_id: @invoice1.id, item_id: @item1.id)
-    @invoiceitem2 = InvoiceItem.create(quantity: 2, status: 1, invoice_id: @invoice2.id, item_id: @item2.id)
-    @invoiceitem3 = InvoiceItem.create(quantity: 1, status: 1, invoice_id: @invoice1.id, item_id: @item3.id)
-    @invoiceitem4 = InvoiceItem.create(quantity: 4, status: 1, invoice_id: @invoice3.id, item_id: @item4.id)
+    @invoiceitem1 = InvoiceItem.create(quantity: 3, unit_price: 999, status: 1, invoice_id: @invoice1.id, item_id: @item1.id)
+    @invoiceitem2 = InvoiceItem.create(quantity: 2, unit_price: 555, status: 1, invoice_id: @invoice2.id, item_id: @item2.id)
+    @invoiceitem3 = InvoiceItem.create(quantity: 1, unit_price: 333, status: 1, invoice_id: @invoice1.id, item_id: @item3.id)
+    @invoiceitem4 = InvoiceItem.create(quantity: 4, unit_price: 111, status: 1, invoice_id: @invoice3.id, item_id: @item4.id)
   end
 
   describe "US25. When I click on the name of a merchant from the admin merchants index page" do
