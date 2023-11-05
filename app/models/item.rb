@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   belongs_to :merchant
   has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items
+  has_many :transactions, through: :invoices
 
   def unit_price_to_dollars
     price_string = unit_price.to_s

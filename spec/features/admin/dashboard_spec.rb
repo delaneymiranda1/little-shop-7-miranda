@@ -56,9 +56,9 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
         @invoiceitem5 = InvoiceItem.create(invoice_id: @invoice5.id, item_id: @item1.id)
         @invoiceitem6 = InvoiceItem.create(invoice_id: @invoice6.id, item_id: @item1.id)
   
-          Transaction.create(invoice_id: @invoice1.id, result: 0)
-          Transaction.create(invoice_id: @invoice2.id, result: 0)
-          Transaction.create(invoice_id: @invoice2.id, result: 0)
+        Transaction.create(invoice_id: @invoice1.id, result: 0)
+        Transaction.create(invoice_id: @invoice2.id, result: 0)
+        Transaction.create(invoice_id: @invoice2.id, result: 0)
         3.times do
           Transaction.create(invoice_id: @invoice3.id, result: 1)
         end
