@@ -80,10 +80,15 @@ RSpec.describe 'Merchant items index page' do
         visit("/merchants/#{@merchant1.id}/items")
         within("#TopFiveItems") do
           expect(page).to have_content("5 Most Popular Items by Revenue")
-          expect("Item 6: 4200").to appear_before("Item 5: 2500")
-          expect("Item 5: 4200").to appear_before("Item 3: 1800")
-          expect("Item 3: 1800").to appear_before("Item 4: 1600")
-          expect("Item 4: 4200").to appear_before("Item 1: 500")
+          expect("Item 6").to appear_before(": 4200")
+          expect(": 4200").to appear_before("Item 5")
+          expect("Item 5").to appear_before(": 2500")
+          expect(": 2500").to appear_before("Item 3")
+          expect("Item 3").to appear_before(": 2400")
+          expect(": 2400").to appear_before("Item 4")
+          expect("Item 4").to appear_before(": 1600")
+          expect(": 1600").to appear_before("Item 1")
+          expect("Item 1").to appear_before(": 500")
         end
       end
       
