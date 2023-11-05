@@ -128,17 +128,19 @@ RSpec.describe Merchant, type: :model do
       InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item8.id, status: 0, quantity: 5, unit_price: 700)
     end
     it 'returns the top 5 items of a merchant by revenue' do
-      expect(@merchant1.top_five_items.count).to eq(5)
+      # expect(@merchant1.top_five_items.count).to eq(5)
       expect(@merchant1.top_five_items[0].id).to eq(@item6.id)
       expect(@merchant1.top_five_items[1].id).to eq(@item5.id)
       expect(@merchant1.top_five_items[2].id).to eq(@item3.id)
       expect(@merchant1.top_five_items[3].id).to eq(@item4.id)
       expect(@merchant1.top_five_items[4].id).to eq(@item1.id)
+      expect(@merchant1.top_five_items[5]).to eq(nil)
     end
 
     it 'stores the revenue' do
-      expect(@merchant1.top_five_items.first.revenue).to eq([4200])
-      expect(@merchant1.top_five_items.last.revenue).to eq([500])
+      expect(@merchant1.top_five_items.first.revenue).to eq(4200)
+      expect(@merchant1.top_five_items[3].revenue).to eq(1600)
+      expect(@merchant1.top_five_items.last.revenue).to eq(500)
     end 
   end
 end
