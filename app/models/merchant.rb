@@ -1,9 +1,13 @@
 class Merchant < ApplicationRecord
-  has_many :items, dependent: :destroy
+  has_many :items
   has_many :invoice_items, through: :items
   has_many :invoices, through: :invoice_items
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
+  def items_to_ship 
+    invoice_items 
+    .where(status: "pending")
+  end
 
   def top_five_customers
     Customer.joins(:items).joins(:transactions).select("customers.id, customers.first_name, customers.last_name, count(customers.id) as successful_transactions").where("items.merchant_id = ? and transactions.result = 0", self.id).group('customers.id').order(successful_transactions: :desc).limit(5)
