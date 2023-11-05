@@ -7,3 +7,17 @@
   <% Merchant.top_five_customers.each do |customer| %>
     <%= "#{customer.first_name} #{customer.last_name}: #{customer.successful_transactions}" %> <br>
   <% end %>
+
+<h5>Incomplete Invoices: </h5>
+<section id="invoices_incomplete">
+  <ul>
+    <% @invoices.not_complete.each do |invoice| %>
+
+      <li>
+        <%= invoice.id %>
+        <%= link_to "Admin Invoice Show Page: #{invoice.id}", "/admin/invoices/#{invoice.id}"%>
+        <%= invoice.created_at.strftime("%A, %B %d, %Y") %>
+      </li>
+    <% end %>
+  </ul>
+</section>
