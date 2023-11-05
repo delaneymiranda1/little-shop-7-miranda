@@ -6,4 +6,8 @@ class Invoice < ApplicationRecord
 
 
   enum status: { cancelled: 0, "in progress": 1, completed: 2 }
+
+  def self.not_complete
+    where("status = 0 OR status = 1").order(created_at: :asc)
+  end
 end
