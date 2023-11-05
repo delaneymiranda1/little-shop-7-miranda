@@ -19,7 +19,7 @@ class Item < ApplicationRecord
     dollar_string + cents_string
   end
 
-  def active?
-    self.active
-  end
+  # def active?
+  #   self.active
+  # end
 end
