@@ -66,6 +66,7 @@ RSpec.describe Merchant, type: :feature do
       
     end
   end
+
   describe "US4. I see a section for 'Items Ready to Ship'" do
     it "shows a list of names of all my items that have been ordered and
     have not yet been shipped and the id of the invoice that ordered my item" do
@@ -90,4 +91,17 @@ RSpec.describe Merchant, type: :feature do
     end
   end
 
+  describe "US5. in the section 'Items Ready to Ship'" do
+    it "next to each item name I see the date that the invoice was created and I see
+    the date formatted like 'Monday, July 18, 2019' and I see the list is ordered
+    from oldest to newest" do
+      visit "/merchants/#{@merchant.id}/dashboard"
+
+      within("#items_shipped") do
+        expect(page).to have_content(@invoice_item1.created_at.strftime("%A, %B %d, %Y"))
+        expect(@item1.name).to appear_before(@item2.name)
+        expect(@item2.name).to appear_before(@item3.name)
+      end
+    end
+  end
 end
