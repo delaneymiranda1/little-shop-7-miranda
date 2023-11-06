@@ -109,7 +109,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
       @customer5 = Customer.create(first_name: "Sheldon", last_name: "Plankton")
       @customer6 = Customer.create(first_name: "Poppy", last_name: "Puff")
   
-      @invoice1 = Invoice.create(status: 1, customer_id: @customer1.id)
+      @invoice1 = Invoice.create(status: 0, customer_id: @customer1.id)
       @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
       @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
       @invoice4 = Invoice.create(status: 1, customer_id: @customer4.id)
