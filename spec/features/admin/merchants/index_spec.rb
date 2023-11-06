@@ -140,6 +140,7 @@ RSpec.describe Merchant, type: :feature do
         InvoiceItem.create(invoice_id: @invoice7.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 300)
 
         visit("/admin/merchants")
+        
         within("#TopFiveMerchants") do
           within("#Merchant#{@merchant6.id}") do
             expect("Merchant 6").to appear_before("Top selling date for was 03 Nov 2023")
@@ -181,7 +182,7 @@ RSpec.describe Merchant, type: :feature do
 
       it "and I see that each Merchant is listed in the appropriate section" do
         visit "/admin/merchants"
-save_and_open_page
+
         within("#enabled-merchants") do
           expect(page).to have_content(@merchant1.name)
           expect(page).to have_content(@merchant2.name)

@@ -112,14 +112,14 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
 
       @invoice1 = Invoice.create(status: 0, customer_id: @customer1.id)
 
-      @invoice1 = Invoice.create(status: 1, customer_id: @customer1.id)
+      @invoice2 = Invoice.create(status: 1, customer_id: @customer1.id)
 
-      @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
-      @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
-      @invoice4 = Invoice.create(status: 1, customer_id: @customer4.id)
+      @invoice3 = Invoice.create(status: 1, customer_id: @customer2.id)
+      @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
+      @invoice5 = Invoice.create(status: 1, customer_id: @customer4.id)
 
-      @invoice5 = Invoice.create(status: 2, customer_id: @customer5.id)
-      @invoice6 = Invoice.create(status: 2, customer_id: @customer6.id)
+      @invoice6 = Invoice.create(status: 2, customer_id: @customer5.id)
+      @invoice7 = Invoice.create(status: 2, customer_id: @customer6.id)
   
       @invoiceitem1 = InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item1.id)
       @invoiceitem2 = InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item1.id)
@@ -135,9 +135,10 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
       expect(page).to have_content(@invoice2.id)
       expect(page).to have_content(@invoice3.id)
       expect(page).to have_content(@invoice4.id)
+      expect(page).to have_content(@invoice5.id)
 
-      expect(page).to_not have_content(@invoice5.id)
       expect(page).to_not have_content(@invoice6.id)
+      expect(page).to_not have_content(@invoice7.id)
 
       expect(page).to have_link("Admin Invoice Show Page: #{@invoice1.id}")
       expect(page).to have_link("Admin Invoice Show Page: #{@invoice2.id}")
@@ -147,5 +148,96 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
       click_link("Admin Invoice Show Page: #{@invoice1.id}")
       expect(current_path).to eq("/admin/invoices/#{@invoice1.id}")
     end      
+  end
+  
+  describe "US23. In the section for 'Incomplete Invoices' " do
+    it "shows the date formatted like 'Monday, July 18, 2019' and I see the list is ordered
+    from oldest to newest " do 
+      @merchant1 = Merchant.create(name: "Spongebob")
+        
+      @item1 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
+      @item2 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
+  
+      @customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
+      @customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
+      @customer3 = Customer.create(first_name: "King", last_name: "Neptune")
+      @customer4 = Customer.create(first_name: "Eugene", last_name: "Krabs")
+      @customer5 = Customer.create(first_name: "Sheldon", last_name: "Plankton")
+      @customer6 = Customer.create(first_name: "Poppy", last_name: "Puff")
+  
+
+      @invoice1 = Invoice.create(status: 0, customer_id: @customer1.id)
+
+      @invoice2 = Invoice.create(status: 1, customer_id: @customer1.id)
+
+      @invoice3 = Invoice.create(status: 1, customer_id: @customer2.id)
+      @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
+      @invoice5 = Invoice.create(status: 1, customer_id: @customer4.id)
+
+      @invoice6 = Invoice.create(status: 2, customer_id: @customer5.id)
+      @invoice7 = Invoice.create(status: 2, customer_id: @customer6.id)
+  
+      @invoiceitem1 = InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item1.id)
+      @invoiceitem2 = InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item1.id)
+      @invoiceitem3 = InvoiceItem.create(invoice_id: @invoice3.id, item_id: @item1.id)
+      @invoiceitem4 = InvoiceItem.create(invoice_id: @invoice4.id, item_id: @item2.id)
+      @invoiceitem5 = InvoiceItem.create(invoice_id: @invoice5.id, item_id: @item1.id)
+      @invoiceitem6 = InvoiceItem.create(invoice_id: @invoice6.id, item_id: @item1.id)
+
+      visit "/admin"
+
+      expect(page).to have_content(@invoice1.created_at.strftime("%A, %B %d, %Y"))
+      expect(page).to have_content(@invoice2.created_at.strftime("%A, %B %d, %Y"))
+      expect(page).to have_content(@invoice3.created_at.strftime("%A, %B %d, %Y"))
+      expect(page).to have_content(@invoice4.created_at.strftime("%A, %B %d, %Y"))
+      expect(page).to have_content(@invoice5.created_at.strftime("%A, %B %d, %Y"))
+    end 
+
+    it "the list is ordered from oldest to newest" do
+      @merchant1 = Merchant.create(name: "Spongebob")
+        
+      @item1 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
+      @item2 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
+  
+      @customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
+      @customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
+      @customer3 = Customer.create(first_name: "King", last_name: "Neptune")
+      @customer4 = Customer.create(first_name: "Eugene", last_name: "Krabs")
+      @customer5 = Customer.create(first_name: "Sheldon", last_name: "Plankton")
+      @customer6 = Customer.create(first_name: "Poppy", last_name: "Puff")
+  
+
+      @invoice1 = Invoice.create(status: 0, customer_id: @customer1.id)
+     
+      @invoice2 = Invoice.create(status: 1, customer_id: @customer1.id)
+
+      @invoice3 = Invoice.create(status: 1, customer_id: @customer2.id)
+      @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
+      @invoice5 = Invoice.create(status: 1, customer_id: @customer4.id)
+
+      @invoice6 = Invoice.create(status: 2, customer_id: @customer5.id)
+      @invoice7 = Invoice.create(status: 2, customer_id: @customer6.id)
+  
+      @invoiceitem1 = InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item1.id)
+      @invoiceitem2 = InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item1.id)
+      @invoiceitem3 = InvoiceItem.create(invoice_id: @invoice3.id, item_id: @item1.id)
+      @invoiceitem4 = InvoiceItem.create(invoice_id: @invoice4.id, item_id: @item2.id)
+      @invoiceitem5 = InvoiceItem.create(invoice_id: @invoice5.id, item_id: @item1.id)
+      @invoiceitem6 = InvoiceItem.create(invoice_id: @invoice6.id, item_id: @item1.id)
+
+      @invoice1.update(created_at: "01 Oct 2023 20:25:45 UTC +00:00")
+      @invoice2.update(created_at: "31 Oct 2023 20:25:45 UTC +00:00")
+      @invoice3.update(created_at: "03 Nov 2023 20:25:45 UTC +00:00")
+      @invoice4.update(created_at: "02 Nov 2023 20:25:45 UTC +00:00")
+      @invoice5.update(created_at: "01 Nov 2023 20:25:45 UTC +00:00")
+     
+      visit "/admin" 
+     
+      expect(@invoice1.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice2.created_at.strftime("%A, %B %d, %Y"))
+      expect(@invoice2.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice5.created_at.strftime("%A, %B %d, %Y"))
+      expect(@invoice5.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice4.created_at.strftime("%A, %B %d, %Y"))
+      expect(@invoice4.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice3.created_at.strftime("%A, %B %d, %Y"))
+  
+    end
   end
 end
