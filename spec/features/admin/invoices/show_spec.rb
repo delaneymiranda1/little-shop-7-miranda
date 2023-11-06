@@ -96,7 +96,6 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     end
   end
 
-
   describe "US36. When I visit my admin invoice show page" do
     it "I see that each invoice status is a select field 
     and I see that the invoice current status is selected" do
