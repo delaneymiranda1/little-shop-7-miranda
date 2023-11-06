@@ -89,7 +89,7 @@ RSpec.describe Merchant, type: :feature do
     it "And I see the total revenue generated next to each merchant name" do
       visit("/admin/merchants")
       within("#TopFiveMerchants") do
-        expect(page).to have_content("5 Most Popular Items by Revenue")
+        expect(page).to have_content("Top 5 Merchants by Revenue")
         expect("Merchant 6").to appear_before(": 4200")
         expect(": 4200").to appear_before("Merchant 2")
         expect("Merchant 2").to appear_before(": 3900")
