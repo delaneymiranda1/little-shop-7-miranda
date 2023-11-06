@@ -272,7 +272,7 @@ RSpec.describe Merchant, type: :model do
         @invoice9.update(created_at: "05 Oct 2023 20:25:45 UTC +00:00")
         Transaction.create(invoice_id: @invoice9.id, result: 0)
         InvoiceItem.create(invoice_id: @invoice9.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 1000)
-        expect(@merchant6.best_day).to eq("05 Nov 2023")
+        expect(@merchant6.best_day).to eq("05 Oct 2023")
         
       end
     end
