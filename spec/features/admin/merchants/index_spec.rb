@@ -64,8 +64,11 @@ RSpec.describe Merchant, type: :feature do
 
     @customer = Customer.create(first_name: "Patrick", last_name: "Star")
     @invoice1 = Invoice.create(status: 2, customer_id: @customer.id)
+    @invoice1.update(created_at: "02 Nov 2023 20:25:45 UTC +00:00")
     @invoice2 = Invoice.create(status: 2, customer_id: @customer.id)
+    @invoice2.update(created_at: "03 Nov 2023 20:25:45 UTC +00:00")
     @invoice3 = Invoice.create(status: 2, customer_id: @customer.id)
+    @invoice3.update(created_at: "04 Nov 2023 20:25:45 UTC +00:00")
 
     Transaction.create(invoice_id: @invoice1.id, result: 1)
     Transaction.create(invoice_id: @invoice1.id, result: 0)
@@ -113,5 +116,49 @@ RSpec.describe Merchant, type: :feature do
         expect(current_path).to eq("/admin/merchants/#{@merchant3.id}")
       end
     end
+
+    describe "US31 - When I visit the admin merchants index, next to each of the 5 merchants" do
+      it "I see the label 'Top selling date was' and the date with the most revenue for each merchant" do
+        @invoice4 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice4.update(created_at: "04 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice4.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice4.id, item_id: @item6.id, status: 0, quantity: 7, unit_price: 700)
+      
+        @invoice5 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice5.update(created_at: "03 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice5.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice5.id, item_id: @item6.id, status: 0, quantity: 2, unit_price: 700)
+      
+        @invoice6 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice6.update(created_at: "02 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice6.id, result: 1)
+        InvoiceItem.create(invoice_id: @invoice6.id, item_id: @item6.id, status: 0, quantity: 9, unit_price: 700)
+      
+        @invoice7 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice7.update(created_at: "01 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice7.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice7.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 300)
+
+        visit("/admin/merchants")
+        save_and_open_page
+        within("#TopFiveMerchants") do
+          within("#Merchant#{@merchant6.id}") do
+            expect("Merchant 6").to appear_before("Top selling date for was 03 Nov 2023")
+          end
+          within("#Merchant#{@merchant2.id}") do
+            expect("Merchant 2").to appear_before("Top selling date for was 03 Nov 2023")
+          end
+          within("#Merchant#{@merchant5.id}") do
+            expect("Merchant 5").to appear_before("Top selling date for was 02 Nov 2023")
+          end
+          within("#Merchant#{@merchant3.id}") do
+            expect("Merchant 3").to appear_before("Top selling date for was 02 Nov 2023")
+          end
+          within("#Merchant#{@merchant4.id}") do
+            expect("Merchant 4").to appear_before("Top selling date for was 03 Nov 2023")
+          end
+        end
+      end
+    end 
   end
 end
