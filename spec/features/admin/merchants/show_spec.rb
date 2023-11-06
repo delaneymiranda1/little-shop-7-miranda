@@ -67,9 +67,10 @@ RSpec.describe Merchant, type: :feature do
   end
 
   describe "US18. When I visit my merchant invoice show page" do
-    xit "I see that each invoice item status is a select field 
+    it "I see that each invoice item status is a select field 
     and I see that the invoice item's current status is selected" do
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}"
+      save_and_open_page
       expect(page).to have_select("Status:", :with_options => ["packaged", "pending", "shipped"])
       expect(@item4.status).to eq("pending")
       expect(@item5.status).to eq("packaged")
@@ -80,11 +81,11 @@ RSpec.describe Merchant, type: :feature do
       expect(@item7.status).to eq("pending")
     end
 
-    xit "I can select a new status for the Item, select Update Item Status, 
+    it "I can select a new status for the Item, select Update Item Status, 
       get taken back to merchant invoice show page and see status has been updated" do
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}"
 
-      expect(page).to have_content("Update Item Status")
+      expect(page).to have_button("Update Item Status")
 
       within "#invoice-item-#{@item4.id}" do 
         select 'shipped', from: 'Status:'
@@ -104,7 +105,7 @@ RSpec.describe Merchant, type: :feature do
 
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice4.id}"
 
-      expect(page).to have_content("Update Item Status")
+      expect(page).to have_button("Update Item Status")
 
       within "#invoice-item-#{@item6.id}" do 
         select 'pending', from: 'Status:'

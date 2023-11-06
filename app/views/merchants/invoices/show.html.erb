@@ -4,12 +4,16 @@
 <p><b>Customer Name:</b> <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
 <p><b>Total Revenue: </b><%= @total_revenue %></p>
 
-
-<h3> <b>Items</b> </h3>
+<h2> <b>Items</b> </h2>
 
 <% @invoice_items.each do |invoiceitem| %>
-  <p>Name: <%= invoiceitem.item.name %></p>
-  <p>Quantity Ordered: <%= invoiceitem.quantity%>
-  <p>Price: <%= invoiceitem.item.unit_price %></p>
-  <p>Status: <%= invoiceitem.status %>
+  <p><b>Name:</b> <%= invoiceitem.item.name %></p>
+  <p><b>Quantity Ordered:</b> <%= invoiceitem.quantity%>
+  <p><b>Price:</b> <%= invoiceitem.item.unit_price %></p>
+
+  <%= form_for invoiceitem, url: "/merchants/#{@merchant.id}/invoices/#{invoiceitem.id}", method: :patch do |f| %>
+    <b>Status:</b> <%= f.select :status, options_for_select(['packaged', 'pending', 'shipped'], selected: invoiceitem.status) %>
+    <%= f.submit 'Update Item Status' %>
+  <% end %>
+
 <% end %>

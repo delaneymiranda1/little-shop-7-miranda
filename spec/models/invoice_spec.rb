@@ -15,7 +15,6 @@ RSpec.describe Invoice, type: :model do
     is ordered by created_at " do
       customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
     
-
       invoice1 = Invoice.create(status: 0, customer_id: customer1.id)
 
       invoice2 = Invoice.create(status: 1, customer_id: customer1.id)
