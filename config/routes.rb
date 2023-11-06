@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   get "/admin/invoices/:invoice_id", to: "admin/invoices#show"
   get "/admin/merchants", to: "admin/merchants#index"
   namespace :admin do
-    patch '/merchants/:id/disable', to: 'merchants#disable', as: 'merchant_disable'
-    patch '/merchants/:id/enable', to: 'merchants#enable', as: 'merchant_enable'
+    patch '/merchants/:id/disable', to: 'merchants#disable', as: :merchant_disable
+    patch '/merchants/:id/enable', to: 'merchants#enable', as: :merchant_enable
   end
   get "/admin/merchants/:merchant_id", to: "admin/merchants#show"
   get "/admin/merchants/:merchant_id/edit", to: "admin/merchants#edit", as: :edit_merchant
