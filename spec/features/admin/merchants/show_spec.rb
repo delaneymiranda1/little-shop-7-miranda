@@ -56,11 +56,10 @@ RSpec.describe Merchant, type: :feature do
       expect(page).to have_content("3330")
 
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice2.id}"
-
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("1110")
-
-      visit "/merchants/#{@merchant2.id}/invoices/#{@invoice3.id}"
+      
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}"
 
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("444")
