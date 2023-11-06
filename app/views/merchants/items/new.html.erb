@@ -1,0 +1,27 @@
+<h1>Create a New Item</h1>
+
+<%= form_for :item, url: merchant_items_path(@merchant) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :unit_price %>
+    <%= f.number_field :unit_price, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :active %>
+    <%= f.check_box :active %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>

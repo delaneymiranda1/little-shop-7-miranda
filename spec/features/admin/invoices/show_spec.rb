@@ -17,9 +17,9 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     @customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
     @customer3 = Customer.create(first_name: "Misses", last_name: "Puff")
 
-    @invoice1 = Invoice.create(status: 1, customer_id: @customer1.id)
+    @invoice1 = Invoice.create(status: 0, customer_id: @customer1.id)
     @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
-    @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
+    @invoice3 = Invoice.create(status: 2, customer_id: @customer3.id)
     @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
 
 
@@ -93,6 +93,66 @@ RSpec.describe "Admins Invoices Show", type: :feature do
 
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("3774")
+    end
+  end
+
+  describe "US36. When I visit my admin invoice show page" do
+    it "I see that each invoice status is a select field 
+    and I see that the invoice current status is selected" do
+      visit "/admin/invoices/#{@invoice1.id}"
+      expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
+      expect(@invoice1.status).to eq("cancelled")
+
+      visit "/admin/invoices/#{@invoice2.id}"
+      expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
+      expect(@invoice2.status).to eq("in progress")
+
+      visit "/admin/invoices/#{@invoice3.id}"
+      expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
+      expect(@invoice3.status).to eq("completed")
+
+      visit "/admin/invoices/#{@invoice4.id}"
+      expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
+      expect(@invoice4.status).to eq("in progress")
+    end
+
+    it "I can select a new status for the invoice, select Update Invoice Status, 
+      get taken back to admin invoice show page and see status has been updated" do
+      visit "/admin/invoices/#{@invoice1.id}"
+      expect(page).to have_button("Update Invoice Status")
+    
+      select 'in progress', from: 'Invoice Status:'
+      click_button 'Update Invoice Status'
+
+      expect(current_path).to eq("/admin/invoices/#{@invoice1.id}")
+      expect(page).to have_select('Invoice Status:', selected: 'in progress')
+      
+      visit "/admin/invoices/#{@invoice2.id}"
+      expect(page).to have_button("Update Invoice Status")
+
+      select 'completed', from: 'Invoice Status:'
+      click_button 'Update Invoice Status'
+
+      expect(current_path).to eq("/admin/invoices/#{@invoice2.id}")
+      expect(page).to have_select('Invoice Status:', selected: 'completed')
+
+      visit "/admin/invoices/#{@invoice3.id}"
+      expect(page).to have_button("Update Invoice Status")
+
+      select 'cancelled', from: 'Invoice Status:'
+      click_button 'Update Invoice Status'
+
+      expect(current_path).to eq("/admin/invoices/#{@invoice3.id}")
+      expect(page).to have_select('Invoice Status:', selected: 'cancelled')
+
+      visit "/admin/invoices/#{@invoice4.id}"
+      expect(page).to have_button("Update Invoice Status")
+
+      select 'in progress', from: 'Invoice Status:'
+      click_button 'Update Invoice Status'
+
+      expect(current_path).to eq("/admin/invoices/#{@invoice4.id}")
+      expect(page).to have_select('Invoice Status:', selected: 'in progress')
     end
   end
 end
