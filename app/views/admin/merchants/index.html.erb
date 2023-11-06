@@ -1,13 +1,16 @@
 <h2>Admin Merchants Index</h2>
 
-<% @merchants.each do |merchant| %>
+<h3>Enabled Merchants</h3>
+<% @merchants.enabled.each do |merchant| %>
   <p><%= merchant.name %></p>
-  <p>Status: <%= merchant.enabled? ? 'enabled' : 'disabled' %></p>
-  <% if merchant.enabled?%>
-    <%= button_to 'Disable', admin_merchant_disable_path(merchant), method: :patch %>
-  <% else %>
-    <%= button_to 'Enable', admin_merchant_enable_path(merchant), method: :patch %>
-  <% end %>
+  <%= button_to 'Disable', admin_merchant_disable_path(merchant), method: :patch %>
+  <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %></p>
+<% end %>
+
+<h3>Disabled Merchants</h3>
+<% @merchants.disabled.each do |merchant| %>
+  <p><%= merchant.name %></p>
+  <%= button_to 'Enable', admin_merchant_enable_path(merchant), method: :patch %>
   <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %></p>
 <% end %>
 
