@@ -140,7 +140,7 @@ RSpec.describe Merchant, type: :feature do
         InvoiceItem.create(invoice_id: @invoice7.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 300)
 
         visit("/admin/merchants")
-        save_and_open_page
+        
         within("#TopFiveMerchants") do
           within("#Merchant#{@merchant6.id}") do
             expect("Merchant 6").to appear_before("Top selling date for was 03 Nov 2023")

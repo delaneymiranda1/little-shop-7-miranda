@@ -232,8 +232,7 @@ RSpec.describe "Admin Dashboard Page", type: :feature do
       @invoice5.update(created_at: "01 Nov 2023 20:25:45 UTC +00:00")
      
       visit "/admin" 
-      # require 'pry';binding.pry
-      # save_and_open_page
+     
       expect(@invoice1.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice2.created_at.strftime("%A, %B %d, %Y"))
       expect(@invoice2.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice5.created_at.strftime("%A, %B %d, %Y"))
       expect(@invoice5.created_at.strftime("%A, %B %d, %Y")).to appear_before(@invoice4.created_at.strftime("%A, %B %d, %Y"))
