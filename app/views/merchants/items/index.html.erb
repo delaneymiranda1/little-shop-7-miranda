@@ -38,3 +38,5 @@
   <%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %><%= ": #{item.revenue}" %> <br>
 <% end %>
 </div>
+
+<%= link_to "Create a New Item", new_merchant_item_path(@merchant) %>
