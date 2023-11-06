@@ -63,4 +63,12 @@ class Merchant < ApplicationRecord
     .order("sales desc, invoices.created_at desc")
     .limit(1).first.created_at.strftime("%d %b %Y")
   end
+
+  def self.enabled
+    where(enabled: true)
+  end
+
+  def self.disabled
+    where(enabled: false)
+  end
 end

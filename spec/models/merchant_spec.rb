@@ -39,7 +39,7 @@ RSpec.describe Merchant, type: :model do
   end
 
   before :each do
-    @merchant1 = Merchant.create(name: "Spongebob")
+    @merchant1 = Merchant.create(name: "Spongebob", enabled: true)
       
     @item1 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
     @item2 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
@@ -84,13 +84,32 @@ RSpec.describe Merchant, type: :model do
       Transaction.create(invoice_id: @invoice6.id, result: 0)
     end
 
-    @merchant2 = Merchant.create(name: "Squidward")
+    @merchant2 = Merchant.create(name: "Squidward", enabled: true)
     @item3 = @merchant2.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
     @customer7 = Customer.create(first_name: "Larry", last_name: "Lobster")
     @invoice7 = Invoice.create(status: 1, customer_id: @customer7.id)
     @invoiceitem7 = InvoiceItem.create(invoice_id: @invoice7.id, item_id: @item3.id)
     3.times do
       Transaction.create(invoice_id: @invoice7.id, result: 0)
+    end
+  end
+  describe "#self.enabled" do
+    it "returns all enabled merchants" do
+      enabled_merchants = Merchant.enabled
+      expect(enabled_merchants.count).to eq(2)
+      enabled_merchants.each do |merchant|
+        expect(merchant.enabled).to eq(true)
+      end
+    end
+  end
+
+  describe "#self.disabled" do
+    it "returns all disabled merchants" do
+      disabled_merchants = Merchant.disabled
+      expect(disabled_merchants.count).to eq(0)
+      disabled_merchants.each do |merchant|
+        expect(merchant.enabled).to eq(false)
+      end
     end
   end
 

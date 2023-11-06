@@ -38,4 +38,8 @@ class Admin::MerchantsController < ApplicationController
     params.require(:merchant).permit(:name)
   end
 
+   def find_merchant
+    @merchant = Merchant.find(params[:id] || params[:merchant_id])
+  end
+
 end
