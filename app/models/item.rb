@@ -3,6 +3,7 @@ class Item < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items
   has_many :transactions, through: :invoices
+  enum status: { enabled: true, disabled: false }
 
   def unit_price_to_dollars
     price_string = unit_price.to_s
@@ -18,6 +19,7 @@ class Item < ApplicationRecord
     end
     dollar_string + cents_string
   end
+
 
   def best_day
     Item.joins(:transactions)

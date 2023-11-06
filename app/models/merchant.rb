@@ -27,9 +27,15 @@ class Merchant < ApplicationRecord
       .limit(5)
   end
 
-  # def enabled?
-  #   self.enabled
-  # end
+
+  def disabled_items 
+    Item.where("active = false and merchant_id = #{self.id}")
+  end
+
+  def enabled_items 
+    Item.where("active = true and merchant_id = #{self.id}")
+  end
+
 
   def top_five_items
     Item.joins(:transactions)
