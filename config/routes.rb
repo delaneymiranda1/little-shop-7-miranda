@@ -30,4 +30,6 @@ Rails.application.routes.draw do
   patch "/merchants/:merchant_id/items/:id/disable", to: "merchants/items#disable"
 
   get "/merchants/:merchant_id/invoices/:invoice_id", to: "merchants/invoices#show"
+  get "/merchants/:merchant_id/invoices/:invoice_id/edit", to: "merchants/invoices#edit"
+  patch "/merchants/:merchant_id/invoices/:invoice_id", to: "merchants/invoices#update"
 end

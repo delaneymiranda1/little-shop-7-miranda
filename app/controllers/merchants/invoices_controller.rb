@@ -15,13 +15,16 @@ class Merchants::InvoicesController < ApplicationController
 
   def update
     @merchant = Merchant.find(params[:merchant_id])
-    @invoice = @merchant.invoice.find(params[:id])
-    @items = @invoice.items
+    @invoice = @merchant.invoices.find(params[:invoice_id])
     @invoice_items = @invoice.invoice_items.includes(:item)
-    if @invoice_item.update(invoice_item_params)
+    if @invoice_items.update(invoice_items_params)
       redirect_to "/merchants/#{@merchant.id}/invoices/#{@invoice.id}"
     else
       render :edit
     end
+  end
+
+  def invoice_items_params
+    params.require(:invoice_item).permit(:quantity, :unit_price, :status)
   end
 end

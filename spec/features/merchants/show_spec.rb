@@ -59,7 +59,7 @@ RSpec.describe Merchant, type: :feature do
     it "shows a list of names of all my items that have been ordered and
     have not yet been shipped and the id of the invoice that ordered my item" do
       visit "/merchants/#{@merchant.id}/dashboard"
-
+  
       within("#items_shipped") do
         expect(page).to have_content(@item1.name)
         expect(page).to have_content(@invoice1.id)
