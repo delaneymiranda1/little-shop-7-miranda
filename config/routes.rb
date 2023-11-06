@@ -7,11 +7,15 @@ Rails.application.routes.draw do
   get "/admin", to: "admin/dashboard#index"
   get "/admin/invoices", to: "admin/invoices#index"
   get "/admin/invoices/:invoice_id", to: "admin/invoices#show"
+  get "/admin/invoices/:invoice_id/edit", to: "admin/invoices#edit"
+  patch "/admin/invoices/:invoice_id", to: "admin/invoices#update"
   get "/admin/merchants", to: "admin/merchants#index"
+
   namespace :admin do
     patch '/merchants/:id/disable', to: 'merchants#disable', as: 'merchant_disable'
     patch '/merchants/:id/enable', to: 'merchants#enable', as: 'merchant_enable'
   end
+  
   get "/admin/merchants/:merchant_id", to: "admin/merchants#show"
   get "/admin/merchants/:merchant_id/edit", to: "admin/merchants#edit", as: :edit_merchant
   patch "admin/merchants/:merchant_id", to: "admin/merchants#update", as: :update_merchant
@@ -31,5 +35,8 @@ Rails.application.routes.draw do
   patch "/merchants/:merchant_id/items/:id/disable", to: "merchants/items#disable"
 
   get "/merchants/:merchant_id/invoices/:invoice_id", to: "merchants/invoices#show"
+
+  get "/merchants/:merchant_id/invoices/:invoice_id/edit", to: "merchants/invoices#edit"
+  patch "/merchants/:merchant_id/invoices/:invoice_id", to: "merchants/invoices#update"
 
 end

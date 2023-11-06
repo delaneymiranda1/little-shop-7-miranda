@@ -13,4 +13,18 @@ class Merchants::InvoicesController < ApplicationController
     @total_revenue = @invoice.invoice_items.sum('unit_price * quantity')
   end
 
+  def update
+    @merchant = Merchant.find(params[:merchant_id])
+    @invoice = @merchant.invoices.find(params[:invoice_id])
+    @invoice_items = @invoice.invoice_items.includes(:item)
+    if @invoice_items.update(invoice_items_params)
+      redirect_to "/merchants/#{@merchant.id}/invoices/#{@invoice.id}"
+    else
+      render :edit
+    end
+  end
+
+  def invoice_items_params
+    params.require(:invoice_item).permit(:quantity, :unit_price, :status)
+  end
 end
