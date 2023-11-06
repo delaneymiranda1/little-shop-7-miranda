@@ -174,4 +174,26 @@ RSpec.describe Merchant, type: :model do
       expect(@merchant1.top_five_items.last.revenue).to eq(500)
     end 
   end
+
+  describe '#disabled_items' do
+    it 'returns all the disabled items of a merchant' do
+      merchant = Merchant.create(name: 'Test Merchant', enabled: true)
+      item1 = merchant.items.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: true)
+      item2 = merchant.items.create(name: 'Item 2', description: 'Description 2', unit_price: 200, active: false)
+      item3 = merchant.items.create(name: 'Item 3', description: 'Description 3', unit_price: 300, active: false)
+
+      expect(merchant.disabled_items).to eq([item2, item3])
+    end
+  end
+
+  describe '#enabled_items' do
+    it 'returns all the enabled items of a merchant' do
+      merchant = Merchant.create(name: 'Test Merchant', enabled: true)
+      item1 = merchant.items.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: true)
+      item2 = merchant.items.create(name: 'Item 2', description: 'Description 2', unit_price: 200, active: false)
+      item3 = merchant.items.create(name: 'Item 3', description: 'Description 3', unit_price: 300, active: true)
+
+      expect(merchant.enabled_items).to eq([item1, item3])
+    end
+  end
 end

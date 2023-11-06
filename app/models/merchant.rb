@@ -17,8 +17,12 @@ class Merchant < ApplicationRecord
     Customer.joins(:items).joins(:transactions).select("customers.id, customers.first_name, customers.last_name, count(customers.id) as successful_transactions").where("transactions.result = 0").group('customers.id').order(successful_transactions: :desc).limit(5)
   end
 
-  def enabled?
-    self.enabled
+  def disabled_items 
+    Item.where("active = false and merchant_id = #{self.id}")
+  end
+
+  def enabled_items 
+    Item.where("active = true and merchant_id = #{self.id}")
   end
 
   def top_five_items
