@@ -28,7 +28,7 @@ RSpec.describe Merchant, type: :feature do
   describe "US25. When I click on the name of a merchant from the admin merchants index page" do
     it "Then I am taken to that merchants admin show page (/admin/merchants/:merchant_id) where I see the name of the merchant" do
       visit "/admin/merchants"
-save_and_open_page
+
       click_link("#{@merchant1.name}")
       expect(current_path).to eq("/admin/merchants/#{@merchant1.id}")
       expect(page).to have_content("#{@merchant1.name}")
