@@ -1,9 +1,14 @@
 <h1> Admin Invoice Show Page</h1>
 <p><b>Invoice ID: </b><%= @invoice.id %></p>
-<p><b>Status: </b><%= @invoice.status %></p>
 <p><b>Created At:</b> <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
 <p><b>Customer Name:</b> <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
 <p><b>Total Revenue: </b><%= @total_revenue %></p>
+
+<%= form_for @invoice, url: "/admin/invoices/#{@invoice.id}", method: :patch do |f| %>
+  <b><%= f.label :status, "Invoice Status:" %></b>
+  <%= f.select :status, options_for_select(['cancelled', 'in progress', 'completed'], selected: @invoice.status) %>
+  <%= f.submit 'Update Invoice Status' %>
+<% end %>
 
 <h3> <b>Items</b> </h3>
 
