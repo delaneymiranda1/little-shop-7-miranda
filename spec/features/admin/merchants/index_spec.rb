@@ -160,4 +160,39 @@ RSpec.describe Merchant, type: :feature do
       end
     end 
   end
+ 
+    
+      
+
+    describe "US28. When I visit my admin merchant index" do
+      before(:each) do
+      @merchant1 = Merchant.create(name: "Spongebob", enabled: true)
+      @merchant2 = Merchant.create(name: "Plankton", enabled: true)
+      @merchant3 = Merchant.create(name: "Mr. Krabs", enabled: false)
+
+      end
+      it "then I see two sections, one for 'Enabled Merchants' and one for 'Disabled Merchants'" do
+      
+        visit "/admin/merchants"
+
+        expect(page).to have_content("Enabled Merchants")
+        expect(page).to have_content("Disabled Merchants")
+      end
+
+      it "and I see that each Merchant is listed in the appropriate section" do
+        visit "/admin/merchants"
+save_and_open_page
+        within("#enabled-merchants") do
+          expect(page).to have_content(@merchant1.name)
+          expect(page).to have_content(@merchant2.name)
+          expect(page).not_to have_content(@merchant3.name)
+        end
+
+        within("#disabled-merchants") do
+          expect(page).to have_content(@merchant3.name)
+          expect(page).not_to have_content(@merchant1.name)
+          expect(page).not_to have_content(@merchant2.name)
+        end
+      end
+    end
 end
