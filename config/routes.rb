@@ -20,9 +20,9 @@ Rails.application.routes.draw do
   get "/merchants/:merchant_id/items", to: "merchants/items#index"
   get "/merchants/:merchant_id/invoices", to: "merchants/invoices#index"
   
-
-
-
+  post "/merchants/:merchant_id/items", to: "merchants/items#create", as: :merchant_items
+  get "/merchants/:merchant_id/items/new", to: "merchants/items#new", as: :new_merchant_item
+  get "/merchants/:merchant_id/items/:item_id", to: "merchants/items#show"
   get "/merchants/:merchant_id/items/:item_id", to: "merchants/items#show"
   get "/merchants/:merchant_id/items/:id/edit", to: "merchants/items#edit", as: :edit_merchant_item
   patch "/merchants/:merchant_id/items/:id", to: "merchants/items#update", as: :update_merchant_item
@@ -31,4 +31,5 @@ Rails.application.routes.draw do
   patch "/merchants/:merchant_id/items/:id/disable", to: "merchants/items#disable"
 
   get "/merchants/:merchant_id/invoices/:invoice_id", to: "merchants/invoices#show"
+
 end
