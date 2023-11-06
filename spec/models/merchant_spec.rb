@@ -174,6 +174,28 @@ RSpec.describe Merchant, type: :model do
       expect(@merchant1.top_five_items.last.revenue).to eq(500)
     end 
   end
+
+  describe '#disabled_items' do
+    it 'returns all the disabled items of a merchant' do
+      merchant = Merchant.create(name: 'Test Merchant', enabled: true)
+      item1 = merchant.items.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: true)
+      item2 = merchant.items.create(name: 'Item 2', description: 'Description 2', unit_price: 200, active: false)
+      item3 = merchant.items.create(name: 'Item 3', description: 'Description 3', unit_price: 300, active: false)
+
+      expect(merchant.disabled_items).to eq([item2, item3])
+    end
+  end
+
+  describe '#enabled_items' do
+    it 'returns all the enabled items of a merchant' do
+      merchant = Merchant.create(name: 'Test Merchant', enabled: true)
+      item1 = merchant.items.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: true)
+      item2 = merchant.items.create(name: 'Item 2', description: 'Description 2', unit_price: 200, active: false)
+      item3 = merchant.items.create(name: 'Item 3', description: 'Description 3', unit_price: 300, active: true)
+
+      expect(merchant.enabled_items).to eq([item1, item3])
+    end
+  end
 end
 
 RSpec.describe Merchant, type: :model do
@@ -199,6 +221,7 @@ RSpec.describe Merchant, type: :model do
       @customer = Customer.create(first_name: "Patrick", last_name: "Star")
       @invoice1 = Invoice.create(status: 2, customer_id: @customer.id)
       @invoice2 = Invoice.create(status: 2, customer_id: @customer.id)
+      @invoice2.update(created_at: "03 Nov 2023 20:25:45 UTC +00:00")
       @invoice3 = Invoice.create(status: 2, customer_id: @customer.id)
 
       Transaction.create(invoice_id: @invoice1.id, result: 1)
@@ -233,5 +256,47 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.top_five_merchants[3].revenue).to eq(2400)
       expect(Merchant.top_five_merchants.last.revenue).to eq(1600)
     end 
+  
+
+    describe "#best_day" do
+      it "Returns the day where the most revenue was generated" do
+        @invoice4 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice4.update(created_at: "04 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice4.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice4.id, item_id: @item6.id, status: 0, quantity: 7, unit_price: 700)
+      
+        @invoice5 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice5.update(created_at: "03 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice5.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice5.id, item_id: @item6.id, status: 0, quantity: 2, unit_price: 700)
+      
+        @invoice6 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice6.update(created_at: "02 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice6.id, result: 1)
+        InvoiceItem.create(invoice_id: @invoice6.id, item_id: @item6.id, status: 0, quantity: 9, unit_price: 700)
+      
+        @invoice7 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice7.update(created_at: "01 Nov 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice7.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice7.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 300)
+
+        expect(@merchant6.best_day).to eq("03 Nov 2023")
+      end
+
+      it "returns the most recent day in a tiebreaker" do
+        @invoice8 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice8.update(created_at: "04 Oct 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice8.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice8.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 1000)
+
+
+        @invoice9 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice9.update(created_at: "05 Oct 2023 20:25:45 UTC +00:00")
+        Transaction.create(invoice_id: @invoice9.id, result: 0)
+        InvoiceItem.create(invoice_id: @invoice9.id, item_id: @item6.id, status: 0, quantity: 10, unit_price: 1000)
+        expect(@merchant6.best_day).to eq("05 Oct 2023")
+        
+      end
+    end
   end
 end

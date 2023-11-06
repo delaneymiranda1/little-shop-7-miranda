@@ -16,7 +16,6 @@ RSpec.describe Invoice, type: :model do
       customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
     
       invoice1 = Invoice.create(status: 0, customer_id: customer1.id)
-
       invoice2 = Invoice.create(status: 1, customer_id: customer1.id)
       invoice3 = Invoice.create(status: 1, customer_id: customer1.id)
       invoice4 = Invoice.create(status: 1, customer_id: customer1.id)
@@ -26,7 +25,7 @@ RSpec.describe Invoice, type: :model do
 
       @invoices = Invoice.all 
 
-      expect(@invoices.not_complete).to eq([invoice1, invoice2, invoice3, invoice4])
+      expect(Invoice.not_complete).to eq([invoice1, invoice2, invoice3, invoice4])
       
       end
     end

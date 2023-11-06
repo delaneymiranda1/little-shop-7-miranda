@@ -27,9 +27,15 @@ class Merchant < ApplicationRecord
       .limit(5)
   end
 
-  # def enabled?
-  #   self.enabled
-  # end
+
+  def disabled_items 
+    Item.where("active = false and merchant_id = #{self.id}")
+  end
+
+  def enabled_items 
+    Item.where("active = true and merchant_id = #{self.id}")
+  end
+
 
   def top_five_items
     Item.joins(:transactions)
@@ -47,5 +53,14 @@ class Merchant < ApplicationRecord
       .group('merchants.id')
       .order(revenue: :desc)
       .limit(5)
+  end
+
+  def best_day
+    Merchant.joins(:transactions)
+    .select("invoices.created_at, sum(invoice_items.quantity * invoice_items.unit_price) as sales")
+    .where("items.merchant_id = #{self.id} and transactions.result = 0")
+    .group('invoices.created_at')
+    .order("sales desc, invoices.created_at desc")
+    .limit(1).first.created_at.strftime("%d %b %Y")
   end
 end

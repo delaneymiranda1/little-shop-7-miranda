@@ -2,6 +2,8 @@ class Merchants::ItemsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @items = @merchant.items
+    
+
   end
 
   def show
@@ -38,17 +40,16 @@ class Merchants::ItemsController < ApplicationController
     params.require(:item).permit(:name, :description, :unit_price)
   end
 
-  def enable
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = @merchant.items.find(params[:id])
-    @item.update(active: true)
-    redirect_to "/merchants/#{@merchant.id}/items"
+ def enable
+  item = Item.find(params[:id])
+  item.update(active: true)
+  redirect_to "/merchants/#{params[:merchant_id]}/items"
   end
 
   def disable
-    @merchant = Merchant.find(params[:merchant_id])
-    @item = @merchant.items.find(params[:id])
-    @item.update(active: false)
-    redirect_to "/merchants/#{@merchant.id}/items"
+    item = Item.find(params[:id])
+    item.update(active: false)
+    redirect_to "/merchants/#{params[:merchant_id]}/items"
   end
+
 end
