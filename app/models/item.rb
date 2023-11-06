@@ -19,7 +19,12 @@ class Item < ApplicationRecord
     dollar_string + cents_string
   end
 
-  def active?
-    self.active
+  def best_day
+    Item.joins(:transactions)
+    .select("invoices.created_at, sum(invoice_items.quantity) as sales")
+    .where("invoice_items.item_id = #{self.id} and transactions.result = 0")
+    .group('invoices.created_at')
+    .order(sales: :desc)
+    .limit(1).first.created_at.strftime("%d %b %Y")
   end
 end
