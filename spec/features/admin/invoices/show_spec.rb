@@ -124,7 +124,7 @@ RSpec.describe "Admins Invoices Show", type: :feature do
       select 'in progress', from: 'Invoice Status:'
       click_button 'Update Invoice Status'
 
-      expect(current_path).to eq("/amin/invoices/#{@invoice1.id}")
+      expect(current_path).to eq("/admin/invoices/#{@invoice1.id}")
       expect(page).to have_select('Invoice Status:', selected: 'in progress')
       
       visit "/admin/invoices/#{@invoice2.id}"

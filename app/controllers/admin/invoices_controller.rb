@@ -12,7 +12,7 @@ class Admin::InvoicesController < ApplicationController
   end
 
   def update
-    @invoice = @merchant.invoices.find(params[:invoice_id])
+    @invoice = Invoice.find(params[:invoice_id])
     if @invoice.update(invoice_params)
       redirect_to "/admin/invoices/#{@invoice.id}"
     else
@@ -20,7 +20,7 @@ class Admin::InvoicesController < ApplicationController
     end
   end
 
-  
+
   def invoice_params
     params.require(:invoice).permit(:status)
   end
