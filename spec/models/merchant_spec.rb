@@ -174,7 +174,9 @@ RSpec.describe Merchant, type: :model do
       expect(@merchant1.top_five_items.last.revenue).to eq(500)
     end 
   end
+end
 
+RSpec.describe Merchant, type: :model do
   describe "#self.top_five_merchants" do
     before :each do
       @merchant1 = Merchant.create(name: 'Merchant 1', enabled: true)
@@ -218,7 +220,7 @@ RSpec.describe Merchant, type: :model do
     end
 
     it "Returns the top 5 merchants based on revenue" do
-      expect(Merchant.top_five_items[0].id).to eq(@merchant6.id)
+      expect(Merchant.top_five_merchants[0].id).to eq(@merchant6.id)
       expect(Merchant.top_five_merchants[1].id).to eq(@merchant2.id)
       expect(Merchant.top_five_merchants[2].id).to eq(@merchant5.id)
       expect(Merchant.top_five_merchants[3].id).to eq(@merchant3.id)
@@ -227,9 +229,9 @@ RSpec.describe Merchant, type: :model do
     end
 
     it 'stores the revenue' do
-      expect(Merchant.top_five_items.first.revenue).to eq(4200)
-      expect(Merchant.top_five_items[3].revenue).to eq(2400)
-      expect(Merchant.top_five_items.last.revenue).to eq(500)
+      expect(Merchant.top_five_merchants.first.revenue).to eq(4200)
+      expect(Merchant.top_five_merchants[3].revenue).to eq(2400)
+      expect(Merchant.top_five_merchants.last.revenue).to eq(1600)
     end 
   end
 end
