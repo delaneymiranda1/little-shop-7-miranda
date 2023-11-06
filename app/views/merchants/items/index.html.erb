@@ -35,7 +35,10 @@
 <div id="TopFiveItems">
 <h3>5 Most Popular Items by Revenue</h3>
 <% @merchant.top_five_items.each do |item| %>
+  <div id="Item<%= item.id %>"> 
   <%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %><%= ": #{item.revenue}" %> <br>
+  <%= "Top selling date for was #{item.best_day}" %> <br> <br>
+  </div>
 <% end %>
 </div>
 

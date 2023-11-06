@@ -55,7 +55,9 @@ RSpec.describe 'Merchant items index page' do
 
         @customer = Customer.create(first_name: "Patrick", last_name: "Star")
         @invoice1 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice1.update(created_at: "03 Nov 2023 20:25:45 UTC +00:00")
         @invoice2 = Invoice.create(status: 2, customer_id: @customer.id)
+        @invoice2.update(created_at: "04 Nov 2023 10:25:45 UTC +00:00")
         @invoice3 = Invoice.create(status: 2, customer_id: @customer.id)
 
         Transaction.create(invoice_id: @invoice1.id, result: 1)
@@ -92,7 +94,7 @@ RSpec.describe 'Merchant items index page' do
         end
       end
       
-      it "Each Item name is a lnk to the item show page" do
+      it "Each Item name is a link to the item show page" do
         visit("/merchants/#{@merchant1.id}/items")
         within("#TopFiveItems") do
           click_link("Item 6")
@@ -101,6 +103,29 @@ RSpec.describe 'Merchant items index page' do
           visit("/merchants/#{@merchant1.id}/items")
           click_link("Item 3")
           expect(current_path).to eq("/merchants/#{@merchant1.id}/items/#{@item3.id}")
+        end
+      end
+
+      describe "US13 - I see the date with the most sales for each item" do
+        it "Next to each item, I see 'Top selling date for was (date)" do
+          visit("/merchants/#{@merchant1.id}/items")
+          within("#TopFiveItems") do
+            within("#Item#{@item6.id}") do
+              expect("Item 6").to appear_before("Top selling date for was 04 Nov 2023")
+            end
+            within("#Item#{@item5.id}") do
+              expect("Item 5").to appear_before("Top selling date for was 03 Nov 2023")
+            end
+            within("#Item#{@item3.id}") do
+              expect("Item 3").to appear_before("Top selling date for was 03 Nov 2023")
+            end
+            within("#Item#{@item4.id}") do
+              expect("Item 4").to appear_before("Top selling date for was 04 Nov 2023")
+            end
+            within("#Item#{@item1.id}") do
+              expect("Item 1").to appear_before("Top selling date for was 03 Nov 2023")
+            end
+          end
         end
       end
     end
