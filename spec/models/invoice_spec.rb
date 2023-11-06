@@ -27,7 +27,7 @@ RSpec.describe Invoice, type: :model do
 
       @invoices = Invoice.all 
 
-      expect(@invoices.not_complete).to eq([invoice1, invoice2, invoice3, invoice4])
+      expect(@invoices.not_complete).to eq([invoice1, invoice2, invoice3, invoice4, invoice5])
       
       end
     end
