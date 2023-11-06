@@ -10,3 +10,13 @@
   <% end %>
   <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %></p>
 <% end %>
+
+<div id=TopFiveMerchants>
+<h3>Top 5 Merchants by Revenue</h3>
+  <%= @merchants.top_five_merchants.each do |merchant| %>
+    <div id=<%= "Merchant#{merchant.id}" %>> 
+    <%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %> <%= "Revenue Generated: #{merchant.revenue}" %>
+    </div>
+  <% end %>
+</div>
+

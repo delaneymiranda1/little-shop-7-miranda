@@ -175,3 +175,63 @@ RSpec.describe Merchant, type: :model do
     end 
   end
 end
+
+RSpec.describe Merchant, type: :model do
+  describe "#self.top_five_merchants" do
+    before :each do
+      @merchant1 = Merchant.create(name: 'Merchant 1', enabled: true)
+      @merchant2 = Merchant.create(name: 'Merchant 2', enabled: true)
+      @merchant3 = Merchant.create(name: 'Merchant 3', enabled: true)
+      @merchant4 = Merchant.create(name: 'Merchant 4', enabled: true)
+      @merchant5 = Merchant.create(name: 'Merchant 5', enabled: true)
+      @merchant6 = Merchant.create(name: 'Merchant 6', enabled: true)
+      @merchant7 = Merchant.create(name: 'Merchant 7', enabled: true)
+  
+      @item1 = @merchant1.items.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: true)
+      @item2 = @merchant2.items.create(name: 'Item 2', description: 'Description 2', unit_price: 200, active: true)
+      @item3 = @merchant3.items.create(name: 'Item 3', description: 'Description 1', unit_price: 300, active: true)
+      @item4 = @merchant4.items.create(name: 'Item 4', description: 'Description 1', unit_price: 100, active: true)
+      @item5 = @merchant5.items.create(name: 'Item 5', description: 'Description 2', unit_price: 200, active: true)
+      @item6 = @merchant6.items.create(name: 'Item 6', description: 'Description 3', unit_price: 300, active: true)
+      @item7 = @merchant7.items.create(name: 'Item 7', description: 'Description 3', unit_price: 300, active: true)
+      @item8 = @merchant2.items.create(name: 'Item 8', description: 'Description 3', unit_price: 10000, active: true)
+
+      @customer = Customer.create(first_name: "Patrick", last_name: "Star")
+      @invoice1 = Invoice.create(status: 2, customer_id: @customer.id)
+      @invoice2 = Invoice.create(status: 2, customer_id: @customer.id)
+      @invoice3 = Invoice.create(status: 2, customer_id: @customer.id)
+
+      Transaction.create(invoice_id: @invoice1.id, result: 1)
+      Transaction.create(invoice_id: @invoice1.id, result: 0)
+      Transaction.create(invoice_id: @invoice2.id, result: 0)
+      3.times do
+        Transaction.create(invoice_id: @invoice3.id, result: 1)
+      end
+
+      InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item1.id, status: 1, quantity: 5, unit_price: 100)
+      InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item2.id, status: 2, quantity: 2, unit_price: 200)
+      InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item3.id, status: 0, quantity: 8, unit_price: 300)
+      InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item4.id, status: 1, quantity: 4, unit_price: 400)
+      InvoiceItem.create(invoice_id: @invoice3.id, item_id: @item4.id, status: 1, quantity: 2, unit_price: 500)
+      InvoiceItem.create(invoice_id: @invoice1.id, item_id: @item5.id, status: 2, quantity: 5, unit_price: 500)
+      InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item6.id, status: 0, quantity: 6, unit_price: 700)
+      InvoiceItem.create(invoice_id: @invoice3.id, item_id: @item7.id, status: 1, quantity: 5, unit_price: 800)
+      InvoiceItem.create(invoice_id: @invoice2.id, item_id: @item8.id, status: 0, quantity: 5, unit_price: 700)
+    end
+
+    it "Returns the top 5 merchants based on revenue" do
+      expect(Merchant.top_five_merchants[0].id).to eq(@merchant6.id)
+      expect(Merchant.top_five_merchants[1].id).to eq(@merchant2.id)
+      expect(Merchant.top_five_merchants[2].id).to eq(@merchant5.id)
+      expect(Merchant.top_five_merchants[3].id).to eq(@merchant3.id)
+      expect(Merchant.top_five_merchants[4].id).to eq(@merchant4.id)
+      expect(Merchant.top_five_merchants[5]).to eq(nil)
+    end
+
+    it 'stores the revenue' do
+      expect(Merchant.top_five_merchants.first.revenue).to eq(4200)
+      expect(Merchant.top_five_merchants[3].revenue).to eq(2400)
+      expect(Merchant.top_five_merchants.last.revenue).to eq(1600)
+    end 
+  end
+end

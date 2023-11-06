@@ -39,4 +39,13 @@ class Merchant < ApplicationRecord
       .order(revenue: :desc)
       .limit(5)
   end
+
+  def self.top_five_merchants
+    Merchant.joins(:transactions)
+      .select("merchants.id, merchants.name, sum(invoice_items.unit_price * invoice_items.quantity) as revenue")
+      .where("transactions.result = 0")
+      .group('merchants.id')
+      .order(revenue: :desc)
+      .limit(5)
+  end
 end
