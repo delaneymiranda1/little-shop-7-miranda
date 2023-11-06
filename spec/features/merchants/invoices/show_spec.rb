@@ -107,7 +107,6 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}"
 
       expect(page).to have_button("Update Item Status")
-      # save_and_open_page
       
       within("#invoiceitem#{@invoiceitem4.id}") do
         select 'shipped', from: 'Status:'

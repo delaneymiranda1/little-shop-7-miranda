@@ -182,7 +182,7 @@ RSpec.describe Merchant, type: :feature do
 
       it "and I see that each Merchant is listed in the appropriate section" do
         visit "/admin/merchants"
-save_and_open_page
+
         within("#enabled-merchants") do
           expect(page).to have_content(@merchant1.name)
           expect(page).to have_content(@merchant2.name)
