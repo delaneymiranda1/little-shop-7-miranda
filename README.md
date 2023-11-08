@@ -39,3 +39,18 @@
 1. [User Stories](./doc/user_stories.md)
 1. [Extensions](./doc/extensions.md)
 1. [Evaluation](./doc/evaluation.md)
+
+## Description:
+
+
+
+## Contributers:
+
+- Miranda Delaney - [Github](https://github.com/delaneymiranda1) || [LinkedIn](https://www.linkedin.com/in/mld52/)
+- Blaine Kennedy [Github](https://github.com/bkchilidawg) || [LinkedIn](https://www.linkedin.com/in/blaine-kennedy/)
+- Michael Kuhlmeier [Github](https://github.com/mbkuhl) || [LinkedIn](https://www.linkedin.com/in/michaelkuhlmeier/)
+- Cory Powell - [Github](https://github.com/coryrpow) || [LinkedIn](https://www.linkedin.com/in/coryrpow/)
+
+## Additional Documentation:
+
+- [Deployment Site](https://little-shop-7-44j1.onrender.com)
