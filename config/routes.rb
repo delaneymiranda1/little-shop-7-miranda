@@ -16,8 +16,5 @@ Rails.application.routes.draw do
     resources :invoices, except: [:destroy, :new, :create], controller: 'merchants/invoices'
 
     get "/dashboard", to: "merchants#show"
-
-    patch "/items/:id/enable", to: "merchants/items#enable"
-    patch "/items/:id/disable", to: "merchants/items#disable"
   end
 end

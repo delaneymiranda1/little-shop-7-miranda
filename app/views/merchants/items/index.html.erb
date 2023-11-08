@@ -8,7 +8,7 @@
         <%= link_to item.name, "/merchants/#{item.merchant_id}/items/#{item.id}" %>
         <p>Status: <%= item.active? ? 'active' : 'inactive' %></p>
         <% if item.active? %>
-          <%= button_to 'Disable', "/merchants/#{item.merchant_id}/items/#{item.id}/disable", method: :patch %>
+          <%= button_to 'Disable', "/merchants/#{item.merchant_id}/items/#{item.id}", method: :patch, params: { flip: true, enable: :disable } %>
         <% end %>
       </li>
     <% end %>
@@ -24,7 +24,7 @@
         <%= link_to item.name, "/merchants/#{item.merchant_id}/items/#{item.id}" %>
         <p>Status: <%= item.active? ? 'active' : 'inactive' %></p>
         <% if !item.active? %>
-          <%= button_to 'Enable', "/merchants/#{item.merchant_id}/items/#{item.id}/enable", method: :patch %>
+          <%= button_to 'Enable', "/merchants/#{item.merchant_id}/items/#{item.id}", method: :patch, params: { flip: true, enable: :enable } %>
         <% end %>
       </li>
     <% end %>
