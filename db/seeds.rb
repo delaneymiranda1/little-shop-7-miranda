@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 Transaction.destroy_all
 InvoiceItem.destroy_all
 Invoice.destroy_all
