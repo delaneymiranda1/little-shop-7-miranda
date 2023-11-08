@@ -15,8 +15,6 @@ class Merchants::InvoicesController < ApplicationController
     @invoice_items = @invoice.invoice_items
     if @invoice_items.update(invoice_items_params)
       redirect_to "/merchants/#{@merchant.id}/invoices/#{@invoice.id}"
-    else
-      render :edit
     end
   end
 

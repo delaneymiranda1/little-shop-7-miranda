@@ -12,8 +12,6 @@ class Admin::InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
     if @invoice.update(invoice_params)
       redirect_to "/admin/invoices/#{@invoice.id}"
-    else
-      render :edit
     end
   end
 

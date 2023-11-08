@@ -83,4 +83,19 @@ RSpec.describe Item, type: :model do
       expect(@item.best_day).to eq("05 Nov 2023")
     end
   end
+  describe '#enable' do
+    it 'changes enabled status to true' do
+      item = Item.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: false)
+      item.enable
+      expect(item.active).to eq(true)
+    end 
+  end
+
+  describe '#disable' do
+    it 'changes enabled status to false' do
+      item = Item.create(name: 'Item 1', description: 'Description 1', unit_price: 100, active: true)
+      item.disable
+      expect(item.active).to eq(false)
+    end 
+  end
 end

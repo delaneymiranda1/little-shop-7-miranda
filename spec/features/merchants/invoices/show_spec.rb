@@ -85,6 +85,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("444")
     end
+    
   end
 
   describe "US18. When I visit my merchant invoice show page" do
@@ -140,5 +141,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
         expect(page).to have_select('Status:', selected: 'shipped')
       end
     end
+    
+    
   end
 end
