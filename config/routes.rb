@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
   namespace :admin do
     resources :invoices, except: [:destroy, :create, :new]
     get "/", to: "dashboard#index"
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
     patch '/merchants/:id/enable', to: 'merchants#enable', as: :merchant_enable
     resources :merchants, only: [:index, :show, :edit, :update]
   end
+
 
   resources :merchants, except: [:destroy, :index, :show, :edit, :update, :new, :create] do
     resources :items, except: [:destroy], controller: 'merchants/items'

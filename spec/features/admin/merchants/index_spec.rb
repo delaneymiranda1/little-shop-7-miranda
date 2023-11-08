@@ -196,4 +196,34 @@ RSpec.describe Merchant, type: :feature do
         end
       end
     end
+    
+  describe "US29. I see a link to create a new merchant" do
+    it "when clicked, I am taken to a form that allows me to add merchant info" do
+      visit "/admin/merchants"
+
+      expect(page).to have_link("Create Merchant")
+      click_link("Create Merchant")
+    
+      expect(current_path).to eq("/admin/merchants/new")
+      expect(page).to have_field("Name:")
+   
+    end
+
+    it "when I fill out the form and click 'Submit' I am taken back to the admin merchants index page
+    and I see the merchant I just created displayed and I see my merchant was created 
+    with a default status of disabled" do
+      visit "/admin/merchants"
+
+      click_link("Create Merchant")
+
+      fill_in(:name, with: "Sponge Doodle")
+      click_button
+  
+      expect(current_path).to eq("/admin/merchants")
+
+      within("#disabled-merchants") do
+        expect(page).to have_content("Sponge Doodle")
+      end
+    end
+  end
 end

@@ -20,6 +20,16 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
+  def new 
+  end
+
+  def create
+    merchant = Merchant.create!(name: params[:name])
+    merchant.update(enabled: false)
+
+    redirect_to "/admin/merchants"
+  end
+
   def edit
     # require 'pry'; binding.pry
     @merchant = Merchant.find(params[:id])
@@ -39,7 +49,7 @@ class Admin::MerchantsController < ApplicationController
     params.require(:merchant).permit(:name)
   end
 
-   def find_merchant
+  def find_merchant
     @merchant = Merchant.find(params[:id] || params[:merchant_id])
   end
 

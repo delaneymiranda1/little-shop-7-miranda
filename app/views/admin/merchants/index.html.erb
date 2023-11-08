@@ -1,4 +1,7 @@
 <h2>Admin Merchants Index</h2>
+
+<%= link_to "Create Merchant", "/admin/merchants/new" %>
+
 <div id=enabled-merchants>
   <h3>Enabled Merchants</h3>
   <% @merchants.enabled.each do |merchant| %>
@@ -26,4 +29,3 @@
     </div>
   <% end %>
 </div>
-
