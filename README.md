@@ -40,9 +40,6 @@
 1. [Extensions](./doc/extensions.md)
 1. [Evaluation](./doc/evaluation.md)
 
-## Description:
-
-
 
 ## Contributers:
 
@@ -53,4 +50,4 @@
 
 ## Additional Documentation:
 
-- [Deployment Site](https://little-shop-7-44j1.onrender.com)
+- [Deployment Site(admin)](https://little-shop-7-44j1.onrender.com/admin)
