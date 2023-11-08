@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.feature "Merchant Item Create", type: :feature do
   before(:each) do
     @merchant1 = Merchant.create(name: 'Merchant 1', enabled: true)

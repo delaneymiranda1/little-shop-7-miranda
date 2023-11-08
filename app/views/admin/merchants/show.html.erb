@@ -1,6 +1,6 @@
 <h3><%= @merchant.name %></h3>
 
-<%= link_to "Update #{@merchant.name}", edit_merchant_path(@merchant) %>
+<%= link_to "Update #{@merchant.name}", "/admin/merchants/#{@merchant.id}/edit" %>
 
 <% flash.each do |name, msg| %>
   <%= content_tag :div, msg, id: "flash_#{name}" %>
