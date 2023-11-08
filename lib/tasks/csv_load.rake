@@ -15,7 +15,8 @@ namespace :csv_load do
   task :merchants => :environment do
     merchant_data = CSV.open('./db/data/merchants.csv')
     CSV.foreach('./db/data/merchants.csv', :headers => true) do |row|
-      Merchant.create!(row.to_hash)
+      merchant = Merchant.create!(row.to_hash)
+      merchant.update(enabled: true)
     end
     ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
   end
@@ -23,7 +24,8 @@ namespace :csv_load do
   task :items => :environment do
     item_data = CSV.open('./db/data/items.csv')
     CSV.foreach('./db/data/items.csv', :headers => true) do |row|
-      Item.create!(row.to_hash)
+      item = Item.create!(row.to_hash)
+      item.update(active: true)
     end
     ActiveRecord::Base.connection.reset_pk_sequence!('items')
   end

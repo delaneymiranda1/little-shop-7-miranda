@@ -27,9 +27,9 @@ RSpec.describe Merchant, type: :feature do
     it "when I click the disable button, I am redirected back to the admin merchants index and the merchant's status has changed" do
       visit "/admin/merchants"
       expect(page).to have_button("Disable", count: 2)
-
       click_button("Disable", match: :first)
       expect(current_path).to eq("/admin/merchants")
+      save_and_open_page
 
 
       expect(page).to have_button("Enable", count: 1)
