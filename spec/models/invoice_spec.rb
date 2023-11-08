@@ -67,4 +67,17 @@ RSpec.describe Invoice, type: :model do
       expect(invoice2.customer_name).to eq( "Sandy Cheeks")
     end
   end
+
+  describe "#formatted_date" do
+    it 'will display the created at date as Monday, December 01, 2021 format' do
+      customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
+      customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
+
+      invoice1 = Invoice.create(status: 1, customer_id: customer1.id)
+      invoice2 = Invoice.create(status: 1, customer_id: customer2.id)
+      
+      expect(invoice1.formatted_date).to eq("Wednesday, November 08, 2023")
+      expect(invoice2.formatted_date).to eq("Wednesday, November 08, 2023")
+    end
+  end
 end
