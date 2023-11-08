@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+# DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 # Transaction.destroy_all
 # InvoiceItem.destroy_all
 # Invoice.destroy_all
@@ -13,7 +13,5 @@ DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 # Customer.destroy_all
 # Merchant.destroy_all
 
-Rake::Task["db:drop"].invoke
-Rake::Task['db:create'].invoke
-Rake::Task['db:migrate'].invoke
+
 Rake::Task['csv_load:all'].invoke
