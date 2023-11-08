@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get "/", to: "dashboard#index"
     patch '/merchants/:id/disable', to: 'merchants#disable', as: :merchant_disable
     patch '/merchants/:id/enable', to: 'merchants#enable', as: :merchant_enable
-    resources :merchants, only: [:index, :show, :edit, :update]
+    resources :merchants, only: [:index, :show, :edit, :update, :new, :create]
   end
 
 
