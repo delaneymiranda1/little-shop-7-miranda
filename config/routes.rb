@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :invoices, except: [:destroy, :create, :new]
     get "/", to: "dashboard#index"
-    patch '/merchants/:id/disable', to: 'merchants#disable', as: :merchant_disable
-    patch '/merchants/:id/enable', to: 'merchants#enable', as: :merchant_enable
     resources :merchants, only: [:index, :show, :edit, :update, :new, :create]
   end
 

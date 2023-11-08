@@ -3,18 +3,6 @@ class Admin::MerchantsController < ApplicationController
   def index
     @merchants = Merchant.all
   end
-
-  def disable
-    merchant = Merchant.find(params[:id])
-    merchant.update(enabled: false)
-    redirect_to '/admin/merchants'
-  end
-
-  def enable
-    merchant = Merchant.find(params[:id])
-    merchant.update(enabled: true)
-    redirect_to '/admin/merchants'
-  end
   
   def show
     @merchant = Merchant.find(params[:id])
@@ -37,11 +25,16 @@ class Admin::MerchantsController < ApplicationController
 
   def update
     @merchant = Merchant.find(params[:id])
-    if @merchant.update(merchant_params)
-      flash[:notice] = "The information has been successfully updated"
-      redirect_to "/admin/merchants/#{@merchant.id}"
+    if params[:flip]
+      @merchant.send(params[:enable])
+      redirect_to '/admin/merchants'
     else
-      render :edit
+      if @merchant.update(merchant_params)
+        flash[:notice] = "The information has been successfully updated"
+        redirect_to "/admin/merchants/#{@merchant.id}"
+      else
+        render :edit
+      end
     end
   end
 
