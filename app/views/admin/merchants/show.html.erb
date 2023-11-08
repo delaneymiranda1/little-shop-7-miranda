@@ -2,6 +2,6 @@
 
 <%= link_to "Update #{@merchant.name}", "/admin/merchants/#{@merchant.id}/edit" %>
 
-<% flash.each do |name, msg| %>
-  <%= content_tag :div, msg, id: "flash_#{name}" %>
+<% if flash.now[:notice] %>
+  <p><%= flash.now[:notice] %></p>
 <% end %>
