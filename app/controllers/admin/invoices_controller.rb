@@ -5,14 +5,14 @@ class Admin::InvoicesController < ApplicationController
   end
   
   def show
-    @invoice = Invoice.find(params[:invoice_id])
+    @invoice = Invoice.find(params[:id])
     @items = @invoice.items
     @invoice_items = @invoice.invoice_items.includes(:item)
     @total_revenue = @invoice.invoice_items.sum('unit_price * quantity')
   end
 
   def update
-    @invoice = Invoice.find(params[:invoice_id])
+    @invoice = Invoice.find(params[:id])
     if @invoice.update(invoice_params)
       redirect_to "/admin/invoices/#{@invoice.id}"
     else

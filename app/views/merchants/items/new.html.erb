@@ -1,6 +1,6 @@
 <h1>Create a New Item</h1>
 
-<%= form_for :item, url: merchant_items_path(@merchant) do |f| %>
+<%= form_for :item, url: "/merchants/#{@merchant.id}/items", method: :post do |f| %>
   <div class="form-group">
     <%= f.label :name %>
     <%= f.text_field :name, class: "form-control" %>

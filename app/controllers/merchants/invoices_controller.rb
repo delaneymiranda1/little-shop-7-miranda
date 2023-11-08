@@ -7,7 +7,7 @@ class Merchants::InvoicesController < ApplicationController
   
   def show
     @merchant = Merchant.find(params[:merchant_id])
-    @invoice = @merchant.invoices.find(params[:invoice_id])
+    @invoice = @merchant.invoices.find(params[:id])
     @items = @invoice.items
     @invoice_items = @invoice.invoice_items.includes(:item)
     @total_revenue = @invoice.invoice_items.sum('unit_price * quantity')
@@ -15,7 +15,7 @@ class Merchants::InvoicesController < ApplicationController
 
   def update
     @merchant = Merchant.find(params[:merchant_id])
-    @invoice = @merchant.invoices.find(params[:invoice_id])
+    @invoice = @merchant.invoices.find(params[:id])
     @invoice_items = @invoice.invoice_items.includes(:item)
     if @invoice_items.update(invoice_items_params)
       redirect_to "/merchants/#{@merchant.id}/invoices/#{@invoice.id}"
