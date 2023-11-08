@@ -115,7 +115,7 @@ RSpec.describe Merchant, type: :model do
 
   describe '#top_five_customers' do
     it "should return the 5 customers with the most successful transactions wiht attributes intact" do
-      expect(@merchant1.top_five_customers).to eq([@customer6, @customer5, @customer4, @customer2, @customer1])
+      expect(@merchant1.top_five_customers.map { |customer| "#{customer.first_name} #{customer.last_name}"}).to eq(["Poppy Puff", "Sheldon Plankton", "Eugene Krabs", "Sandy Cheeks", "Patrick Star"])
       expect(@merchant1.top_five_customers.first.successful_transactions).to eq(6)
       expect(@merchant1.top_five_customers.first.first_name).to eq("Poppy")
       expect(@merchant1.top_five_customers.first.last_name).to eq("Puff")

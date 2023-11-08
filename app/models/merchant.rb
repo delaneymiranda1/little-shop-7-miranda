@@ -10,7 +10,7 @@ class Merchant < ApplicationRecord
   end
 
   def top_five_customers
-    Customer.joins(:items).joins(:transactions)
+    Invoice.joins(:items).joins(:transactions).joins(:customer)
       .select("customers.id, customers.first_name, customers.last_name, count(customers.id) as successful_transactions")
       .where("items.merchant_id = ? and transactions.result = 0", self.id)
       .group('customers.id')
