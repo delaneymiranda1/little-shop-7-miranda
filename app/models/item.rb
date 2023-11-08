@@ -29,4 +29,12 @@ class Item < ApplicationRecord
     .order("sales desc, invoices.created_at desc")
     .limit(1).first.created_at.strftime("%d %b %Y")
   end
+
+  def enable
+    update(active: true)
+  end
+
+  def disable
+    update(active: false)
+  end
 end

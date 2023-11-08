@@ -71,4 +71,12 @@ class Merchant < ApplicationRecord
   def self.disabled
     where(enabled: false)
   end
+
+  def enable
+    update(enabled: true)
+  end
+
+  def disable
+    update(enabled: false)
+  end
 end
