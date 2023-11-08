@@ -1,8 +1,8 @@
 <h1> Admin Invoice Show Page</h1>
 <p><b>Invoice ID: </b><%= @invoice.id %></p>
-<p><b>Created At:</b> <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
-<p><b>Customer Name:</b> <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
-<p><b>Total Revenue: </b><%= @total_revenue %></p>
+<p><b>Created At:</b> <%= @invoice.formatted_date %></p>
+<p><b>Customer Name:</b> <%= @invoice.customer_name %></p>
+<p><b>Total Revenue: </b><%= @invoice.total_revenue %></p>
 
 <%= form_for @invoice, url: "/admin/invoices/#{@invoice.id}", method: :patch do |f| %>
   <b><%= f.label :status, "Invoice Status:" %></b>
@@ -12,9 +12,9 @@
 
 <h3> <b>Items</b> </h3>
 
-<% @invoice_items.each do |invoiceitem| %>
-  <p>Name: <%= invoiceitem.item.name %></p>
-  <p>Quantity Ordered: <%= invoiceitem.quantity%>
-  <p>Price: <%= invoiceitem.item.unit_price %></p>
-  <p>Status: <%= invoiceitem.status %>
+<% @invoice.invoice_items.each do |invoice_item| %>
+  <p>Name: <%= invoice_item.item.name %></p>
+  <p>Quantity Ordered: <%= invoice_item.quantity%>
+  <p>Price: <%= invoice_item.unit_price %></p>
+  <p>Status: <%= invoice_item.status %>
 <% end %>

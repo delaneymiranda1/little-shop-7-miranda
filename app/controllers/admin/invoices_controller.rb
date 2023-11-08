@@ -6,9 +6,6 @@ class Admin::InvoicesController < ApplicationController
   
   def show
     @invoice = Invoice.find(params[:id])
-    @items = @invoice.items
-    @invoice_items = @invoice.invoice_items.includes(:item)
-    @total_revenue = @invoice.invoice_items.sum('unit_price * quantity')
   end
 
   def update
@@ -20,7 +17,7 @@ class Admin::InvoicesController < ApplicationController
     end
   end
 
-
+  private
   def invoice_params
     params.require(:invoice).permit(:status)
   end
