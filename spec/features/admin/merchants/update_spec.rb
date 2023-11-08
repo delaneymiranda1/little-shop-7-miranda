@@ -24,5 +24,18 @@ RSpec.feature Merchant, type: :feature do
       expect(page).to have_content("New Merchant Name")
       expect(page).to have_content("The information has been successfully updated")
     end
+    it "When I submit invalid information, the form is re-rendered with the invalid information" do
+     
+      visit edit_admin_merchant_path(@merchant1)
+
+
+     
+      fill_in "Name", with: ""
+      click_button "Submit"
+
+    
+      expect(page).to have_field("Name", with: "")
+    end
   end
+  
 end
