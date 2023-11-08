@@ -2,21 +2,21 @@
 <p><b>Status: </b><%= @invoice.status %></p>
 <p><b>Created At:</b> <%= @invoice.created_at.strftime("%A, %B %d, %Y") %></p>
 <p><b>Customer Name:</b> <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %></p>
-<p><b>Total Revenue: </b><%= @total_revenue %></p>
+<p><b>Total Revenue: </b><%= @invoice.total_revenue %></p>
 
 <section id="invoice-items">
   <ul>
     <h2> <b>Items</b> </h2>
 
-    <% @invoice_items.each do |invoiceitem| %>
-      <div id="invoiceitem<%= invoiceitem.id %>">  
-        <p><b>Name:</b> <%= invoiceitem.item.name %></p>
-        <p><b>Quantity Ordered:</b> <%= invoiceitem.quantity%>
-        <p><b>Price:</b> <%= invoiceitem.item.unit_price %></p>
+    <% @invoice.invoice_items.each do |invoice_item| %>
+      <div id="invoiceitem<%= invoice_item.id %>">  
+        <p><b>Name:</b> <%= invoice_item.item.name %></p>
+        <p><b>Quantity Ordered:</b> <%= invoice_item.quantity%>
+        <p><b>Price:</b> <%= invoice_item.item.unit_price %></p>
 
-        <%= form_for invoiceitem, url: "/merchants/#{@merchant.id}/invoices/#{invoiceitem.invoice_id}", method: :patch do |f| %>
+        <%= form_for invoice_item, url: "/merchants/#{@merchant.id}/invoices/#{invoice_item.invoice_id}", method: :patch do |f| %>
           <b><%= f.label :status, "Status:" %></b>
-          <%= f.select :status, options_for_select(['packaged', 'pending', 'shipped'], selected: invoiceitem.status) %>
+          <%= f.select :status, options_for_select(['packaged', 'pending', 'shipped'], selected: invoice_item.status) %>
           <%= f.submit 'Update Item Status' %>
         <% end %>
       </div>

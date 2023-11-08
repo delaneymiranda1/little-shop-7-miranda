@@ -1,9 +1,6 @@
 class Merchants::ItemsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
-    @items = @merchant.items
-    
-
   end
 
   def show
@@ -28,18 +25,6 @@ class Merchants::ItemsController < ApplicationController
     end
   end
 
-  def find_merchant
-    @merchant = Merchant.find(params[:merchant_id])
-  end
-
-  def find_item
-    @item = @merchant.items.find(params[:id])
-  end
-
-  def item_params
-    params.require(:item).permit(:name, :description, :unit_price)
-  end
-
  def enable
   item = Item.find(params[:id])
   item.update(active: true)
@@ -60,13 +45,14 @@ class Merchants::ItemsController < ApplicationController
   def create
     @merchant = Merchant.find(params[:merchant_id])
     @item = @merchant.items.new(item_params)
-    
     if @item.save
-      redirect_to "/merchants/#{params[:merchant_id]}/items"
+      redirect_to "/merchants/#{@merchant.id}/items"
     else
       render :new
     end
   end
+
+  private
 
   def item_params
     params.require(:item).permit(:name, :description, :unit_price, :active)
