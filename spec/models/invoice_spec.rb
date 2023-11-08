@@ -54,4 +54,17 @@ RSpec.describe Invoice, type: :model do
       expect(invoice2.total_revenue).to eq(1110)
     end
   end
+
+  describe "#customer_name" do
+    it 'will display the customers first and last name' do
+      customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
+      customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
+
+      invoice1 = Invoice.create(status: 1, customer_id: customer1.id)
+      invoice2 = Invoice.create(status: 1, customer_id: customer2.id)
+      
+      expect(invoice1.customer_name).to eq( "Patrick Star")
+      expect(invoice2.customer_name).to eq( "Sandy Cheeks")
+    end
+  end
 end
