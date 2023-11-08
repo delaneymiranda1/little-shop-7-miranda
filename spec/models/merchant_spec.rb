@@ -215,6 +215,22 @@ RSpec.describe Merchant, type: :model do
       expect(merchant.enabled_items).to eq([item1, item3])
     end
   end
+  describe '#enable' do
+    it 'changes enabled status to true' do
+      merchant = Merchant.create(name: 'Test Merchant', enabled: false)
+      merchant.enable
+      expect(merchant.enabled).to eq(true)
+    end 
+  end
+
+  describe '#disable' do
+    it 'changes enabled status to false' do
+      merchant = Merchant.create(name: 'Test Merchant', enabled: true)
+      merchant.disable
+      expect(merchant.enabled).to eq(false)
+    end 
+  end
+
 end
 
 RSpec.describe Merchant, type: :model do

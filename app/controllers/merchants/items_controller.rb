@@ -24,8 +24,6 @@ class Merchants::ItemsController < ApplicationController
       if @item.update(item_params)
         flash[:notice] = "The information has been successfully updated"
         redirect_to "/merchants/#{@merchant.id}/items/#{@item.id}"
-      else
-        render :edit
       end
     end
   end

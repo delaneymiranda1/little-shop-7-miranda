@@ -29,4 +29,19 @@ RSpec.feature "Merchant Item Create", type: :feature do
     click_link "New Item"
 
   end
+
+
+  it "when item fails to save, it renders the new template" do
+    visit "/merchants/#{@merchant1.id}/items"
+    click_link "Create a New Item"
+
+    fill_in "Name", with: ""
+    fill_in "Description", with: ""
+    fill_in "Unit price", with: ""
+    
+    click_button "Submit"
+
+    expect(page).to have_content("Create a New Item")
+  end
+    
 end

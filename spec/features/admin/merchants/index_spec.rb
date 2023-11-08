@@ -29,7 +29,7 @@ RSpec.describe Merchant, type: :feature do
       expect(page).to have_button("Disable", count: 2)
       click_button("Disable", match: :first)
       expect(current_path).to eq("/admin/merchants")
-      save_and_open_page
+      
 
 
       expect(page).to have_button("Enable", count: 1)
