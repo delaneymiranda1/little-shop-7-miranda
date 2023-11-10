@@ -75,8 +75,9 @@ RSpec.describe Invoice, type: :model do
 
       invoice1 = Invoice.create(status: 1, customer_id: customer1.id)
       invoice2 = Invoice.create(status: 1, customer_id: customer2.id)
-      
+      invoice1.update(created_at: "Wednesday, November 08, 2023")
       expect(invoice1.formatted_date).to eq("Wednesday, November 08, 2023")
+      invoice2.update(created_at: "Wednesday, November 08, 2023")
       expect(invoice2.formatted_date).to eq("Wednesday, November 08, 2023")
     end
   end

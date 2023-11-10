@@ -1,6 +1,6 @@
 class Merchant < ApplicationRecord
   validates :name, presence: true
-
+  has_many :bulk_discounts
   has_many :items
   has_many :invoice_items, through: :items, dependent: :destroy
   has_many :invoices, through: :invoice_items
