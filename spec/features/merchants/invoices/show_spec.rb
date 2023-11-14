@@ -21,6 +21,8 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
     @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
     @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
+    @invoice5 = Invoice.create(status: 1, customer_id: @customer1.id)
+    @invoice6 = Invoice.create(status: 1, customer_id: @customer2.id)
 
 
     @invoiceitem1 = InvoiceItem.create(quantity: 3, unit_price: 999, status: 1, invoice_id: @invoice1.id, item_id: @item1.id)
@@ -30,6 +32,14 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @invoiceitem5 = InvoiceItem.create(quantity: 2, unit_price: 444, status: 0, invoice_id: @invoice3.id, item_id: @item5.id)
     @invoiceitem6 = InvoiceItem.create(quantity: 3, unit_price: 888, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
     @invoiceitem7 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice4.id, item_id: @item7.id)
+    @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item1.id)
+    @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item2.id)
+    
+
+  
+    @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
+    @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
+    @bulkdiscount3 = @merchant2.bulk_discounts.create!(quantity: 12, discount: 30)
   end
 
   describe "US15. When I visit my merchant's invoices show " do 
@@ -156,6 +166,36 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       expect(page).to have_content("Total Revenue: 1332")
       expect(page).to have_content("Total Discounted Revenue: __")
 
+    end
+  end
+
+  # US 7
+  describe "When I visit my merchant invoice show page" do
+    xit 'Next to each invoice item I see a link to the show page for 
+      the bulk discount that was applied (if any)' do
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice5.id}"
+      within "#invoiceitem#{@invoiceitem8.id}" do
+        expect(page).to_not have_content("Bulk Discount #{@bulkdiscount2.id}")
+
+        expect(page).to have_content("Bulk Discount #{@bulkdiscount1.id}")
+        expect(page).to have_content("Quantity: 5")
+        expect(page).to have_content("Discount: 20")
+      
+        click_link("Bulk Discount #{@bulkdiscount1.id}")
+        expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@bulkdiscount1.id}")
+      end
+
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
+      within "#invoiceitem#{@invoiceitem9.id}" do
+        expect(page).to_not have_content("Bulk Discount #{@bulkdiscount1.id}")
+        
+        expect(page).to have_content("Bulk Discount #{@bulkdiscount2.id}")
+        expect(page).to have_content("Quantity: 10")
+        expect(page).to have_content("Discount: 25")
+      
+        click_link("Bulk Discount #{@bulkdiscount2.id}")
+        expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@bulkdiscount2.id}")
+      end
     end
   end
 end
