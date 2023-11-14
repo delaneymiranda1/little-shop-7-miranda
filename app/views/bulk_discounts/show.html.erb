@@ -1,1 +1,4 @@
-<h1> <%= "Bulk Discount: #{@bulk_discount.discount}" %></h1>
+<h1> <%= "Bulk Discount: #{@bulk_discount.discount}" %></h1><br/>
+
+<p><b>Quantity Needed to Purchase for Discount to Apply: </b><%= @bulk_discount.quantity %></p>
+<p><b>Discount:</b> <%= "#{@bulk_discount.discount}% off" %></p>

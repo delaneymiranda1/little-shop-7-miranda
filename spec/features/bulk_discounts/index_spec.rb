@@ -24,7 +24,6 @@ describe "Merchant Bulk Discounts Index" do
       end
       it "And each bulk discount listed includes a link to its show page" do 
         visit "/merchants/#{@merchant1.id}/bulk_discounts"
-        save_and_open_page
         click_link "Click For More Information on this #{@bulkdiscount1.discount}% off Discount"
         expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}")
       end
