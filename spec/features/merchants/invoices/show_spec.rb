@@ -30,7 +30,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @invoiceitem5 = InvoiceItem.create(quantity: 2, unit_price: 444, status: 0, invoice_id: @invoice3.id, item_id: @item5.id)
     @invoiceitem6 = InvoiceItem.create(quantity: 3, unit_price: 888, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
     @invoiceitem7 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice4.id, item_id: @item7.id)
- end
+  end
 
   describe "US15. When I visit my merchant's invoices show " do 
     it "then I see information related to that invoice" do
@@ -141,7 +141,21 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
         expect(page).to have_select('Status:', selected: 'shipped')
       end
     end
-    
-    
+  end
+
+  # US 6
+  describe "When I visit my merchant invoice show page" do
+    xit 'Then I see the total revenue for my merchant from this invoice 
+      (not including discounts) And I see the total discounted revenue for
+      my merchant from this invoice which includes bulk discounts in the calculation' do
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}"
+      expect(page).to have_content("Total Revenue: 2997")
+      expect(page).to have_content("Total Discounted Revenue: __")
+      
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}"
+      expect(page).to have_content("Total Revenue: 1332")
+      expect(page).to have_content("Total Discounted Revenue: __")
+
+    end
   end
 end
