@@ -8,7 +8,7 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     @item1 = @merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
     @item2 = @merchant1.items.create(name: "Diet Dr Kelp", description: "spicy", unit_price: "555")
     @item3 = @merchant1.items.create(name: "Pretty Pattie", description: "cute", unit_price: "333")
-    @item4 = @merchant2.items.create(name: "Chum Bucket", description: "chummy", unit_price: "111")
+    @item4 = @merchant1.items.create(name: "Chum Bucket", description: "chummy", unit_price: "111")
     @item5 = @merchant1.items.create(name: "Pancakes", description: "fluffy", unit_price: "444")
     @item6 = @merchant1.items.create(name: "Crepes", description: "savory", unit_price: "888")
     @item7 = @merchant1.items.create(name: "Waffles", description: "thick", unit_price: "222")
@@ -17,20 +17,27 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     @customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
     @customer3 = Customer.create(first_name: "Misses", last_name: "Puff")
 
-    @invoice1 = Invoice.create(status: 0, customer_id: @customer1.id)
+    @invoice1 = Invoice.create(status: 1, customer_id: @customer1.id)
     @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
-    @invoice3 = Invoice.create(status: 2, customer_id: @customer3.id)
+    @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
     @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
+    @invoice5 = Invoice.create(status: 1, customer_id: @customer1.id)
+    @invoice6 = Invoice.create(status: 1, customer_id: @customer2.id)
 
 
     @invoiceitem1 = InvoiceItem.create(quantity: 3, unit_price: 999, status: 1, invoice_id: @invoice1.id, item_id: @item1.id)
     @invoiceitem2 = InvoiceItem.create(quantity: 2, unit_price: 555, status: 1, invoice_id: @invoice2.id, item_id: @item2.id)
     @invoiceitem3 = InvoiceItem.create(quantity: 1, unit_price: 333, status: 1, invoice_id: @invoice1.id, item_id: @item3.id)
     @invoiceitem4 = InvoiceItem.create(quantity: 4, unit_price: 111, status: 1, invoice_id: @invoice3.id, item_id: @item4.id)
-    @invoiceitem5 = InvoiceItem.create(quantity: 2, unit_price: 444, status: 1, invoice_id: @invoice3.id, item_id: @item5.id)
-    @invoiceitem6 = InvoiceItem.create(quantity: 3, unit_price: 888, status: 1, invoice_id: @invoice4.id, item_id: @item6.id)
+    @invoiceitem5 = InvoiceItem.create(quantity: 2, unit_price: 444, status: 0, invoice_id: @invoice3.id, item_id: @item5.id)
+    @invoiceitem6 = InvoiceItem.create(quantity: 3, unit_price: 888, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
     @invoiceitem7 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice4.id, item_id: @item7.id)
+    @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item1.id)
+    @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item2.id)
     
+    @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
+    @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
+    @bulkdiscount3 = @merchant2.bulk_discounts.create!(quantity: 12, discount: 30)
   end
 
   describe "US33. When I visit my admin's invoices show " do 
@@ -153,6 +160,28 @@ RSpec.describe "Admins Invoices Show", type: :feature do
 
       expect(current_path).to eq("/admin/invoices/#{@invoice4.id}")
       expect(page).to have_select('Invoice Status:', selected: 'in progress')
+    end
+  end
+
+  # US 8
+  describe "When I visit an admin invoice show page" do
+    xit 'Then I see the total revenue from this invoice (not including discounts)
+      And I see the total discounted revenue from this invoice which includes bulk
+      discounts in the calculation' do
+      visit "/admin/invoices/#{@invoice5.id}"
+
+      expect(page).to have_content("Total Revenue: #{@total_revenue}")
+      expect(page).to have_content("1110")
+      expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
+      expect(page).to have_content("888")
+
+      visit "/admin/invoices/#{@invoice5.id}"
+
+      expect(page).to have_content("Total Revenue: #{@total_revenue}")
+      expect(page).to have_content("2220")
+      expect(page).to have_content("Total Disounted Revenue: #{@total_discounted_revenue}")
+      expect(page).to have_content("1665")
+
     end
   end
 end

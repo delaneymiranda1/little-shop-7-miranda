@@ -35,8 +35,6 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item1.id)
     @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item2.id)
     
-
-  
     @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
     @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
     @bulkdiscount3 = @merchant2.bulk_discounts.create!(quantity: 12, discount: 30)
