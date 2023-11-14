@@ -1,0 +1,12 @@
+<h2><%= "You are Editing this Discount" %></h2>
+<%= form_for [@bulk_discount], url: "/merchants/#{@bulk_discount.merchant.id}/bulk_discounts/#{@bulk_discount.id}", method: :patch do |f| %>
+  <div class="field">
+    <%= f.label :quantity %>
+    <%= f.text_field :quantity%>
+    <br>
+    <br>
+    <%= f.label :discount %>
+    <%= f.text_field :discount %>
+  </div>
+  <%= f.submit "Submit" %>
+<% end %>

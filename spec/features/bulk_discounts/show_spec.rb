@@ -15,11 +15,11 @@ describe "Merchant Bulk Discounts Show" do
     it 'Then I see the bulk discounts quantity threshold and percentage discount' do
       visit "/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}"
       expect(page).to have_content("Quantity Needed to Purchase for Discount to Apply: 5")
-      expect(page).to have_content("Discount: 20")
+      expect(page).to have_content("Discount: 20% off")
 
       visit "/merchants/#{@merchant2.id}/bulk_discounts/#{@bulkdiscount4.id}"
       expect(page).to have_content("Quantity Needed to Purchase for Discount to Apply: 15")
-      expect(page).to have_content("Discount: 15")
+      expect(page).to have_content("Discount: 15% off")
     end
   end
 
@@ -45,13 +45,12 @@ describe "Merchant Bulk Discounts Show" do
       fill_in "Discount", with: "23"
       click_button "Submit"
 
-      expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}")
-      expect(page).to_not have_content("Quantity: 5")
-      expect(page).to_not have_content("Discount: 20")
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}")
+      expect(page).to_not have_content("Quantity Needed to Purchase for Discount to Apply: 5")
+      expect(page).to_not have_content("Discount: 20% off")
     
-      expect(page).to have_content("Quantity: 7")
-      expect(page).to have_content("Discount: 23")
-      
+      expect(page).to have_content("Quantity Needed to Purchase for Discount to Apply: 7")
+      expect(page).to have_content("Discount: 23% off")
     end
   end
 end
