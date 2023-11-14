@@ -23,6 +23,35 @@ describe "Merchant Bulk Discounts Show" do
     end
   end
 
+  # US 5
+  describe "When I visit my bulk discount show page" do
+    it 'Then I see a link to edit the bulk discount
+      When I click this link
+      Then I am taken to a new page with a form to edit the discount
+      And I see that the discounts current attributes are pre-poluated in the form
+      When I change any/all of the information and click submit
+      Then I am redirected to the bulk discounts show page
+      And I see that the discounts attributes have been updated' do
+      visit "/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}"
+      expect(page).to have_content("Edit this Discount")
 
+      click_link "Edit this Discount"
 
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}/edit")
+      expect(find_field("Quantity").value).to eq("5")
+      expect(find_field("Discount").value).to eq("20")
+
+      fill_in "Quantity", with: "7"
+      fill_in "Discount", with: "23"
+      click_button "Submit"
+
+      expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulk_discount1.id}")
+      expect(page).to_not have_content("Quantity: 5")
+      expect(page).to_not have_content("Discount: 20")
+    
+      expect(page).to have_content("Quantity: 7")
+      expect(page).to have_content("Discount: 23")
+      
+    end
+  end
 end
