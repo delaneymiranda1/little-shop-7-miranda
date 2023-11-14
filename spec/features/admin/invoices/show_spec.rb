@@ -12,17 +12,22 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     @item5 = @merchant1.items.create(name: "Pancakes", description: "fluffy", unit_price: "444")
     @item6 = @merchant1.items.create(name: "Crepes", description: "savory", unit_price: "888")
     @item7 = @merchant1.items.create(name: "Waffles", description: "thick", unit_price: "222")
+    @item8 = @merchant1.items.create(name: "Butter", description: "nonfat", unit_price: "12")
+    @item9 = @merchant1.items.create(name: "Cream", description: "halfnhalf", unit_price: "123")
 
     @customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
     @customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
     @customer3 = Customer.create(first_name: "Misses", last_name: "Puff")
+    @customer4 = Customer.create(first_name: "Bad", last_name: "Bunny")
+    @customer5 = Customer.create(first_name: "Kendall", last_name: "Jenner")
+
 
     @invoice1 = Invoice.create(status: 1, customer_id: @customer1.id)
     @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
     @invoice3 = Invoice.create(status: 1, customer_id: @customer3.id)
     @invoice4 = Invoice.create(status: 1, customer_id: @customer3.id)
-    @invoice5 = Invoice.create(status: 1, customer_id: @customer1.id)
-    @invoice6 = Invoice.create(status: 1, customer_id: @customer2.id)
+    @invoice5 = Invoice.create(status: 1, customer_id: @customer4.id)
+    @invoice6 = Invoice.create(status: 1, customer_id: @customer5.id)
 
 
     @invoiceitem1 = InvoiceItem.create(quantity: 3, unit_price: 999, status: 1, invoice_id: @invoice1.id, item_id: @item1.id)
@@ -32,8 +37,8 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     @invoiceitem5 = InvoiceItem.create(quantity: 2, unit_price: 444, status: 0, invoice_id: @invoice3.id, item_id: @item5.id)
     @invoiceitem6 = InvoiceItem.create(quantity: 3, unit_price: 888, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
     @invoiceitem7 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice4.id, item_id: @item7.id)
-    @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item1.id)
-    @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item2.id)
+    @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item8.id)
+    @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item9.id)
     
     @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
     @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
@@ -108,7 +113,7 @@ RSpec.describe "Admins Invoices Show", type: :feature do
     and I see that the invoice current status is selected" do
       visit "/admin/invoices/#{@invoice1.id}"
       expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
-      expect(@invoice1.status).to eq("cancelled")
+      expect(@invoice1.status).to eq("in progress")
 
       visit "/admin/invoices/#{@invoice2.id}"
       expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
@@ -116,7 +121,7 @@ RSpec.describe "Admins Invoices Show", type: :feature do
 
       visit "/admin/invoices/#{@invoice3.id}"
       expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])
-      expect(@invoice3.status).to eq("completed")
+      expect(@invoice3.status).to eq("in progress")
 
       visit "/admin/invoices/#{@invoice4.id}"
       expect(page).to have_select("Invoice Status:", :with_options => ["cancelled", "in progress", "completed"])

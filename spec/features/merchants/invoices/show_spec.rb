@@ -12,10 +12,14 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @item5 = @merchant1.items.create(name: "Pancakes", description: "fluffy", unit_price: "444")
     @item6 = @merchant1.items.create(name: "Crepes", description: "savory", unit_price: "888")
     @item7 = @merchant1.items.create(name: "Waffles", description: "thick", unit_price: "222")
+    @item8 = @merchant1.items.create(name: "Butter", description: "nonfat", unit_price: "12")
+    @item9 = @merchant1.items.create(name: "Cream", description: "halfnhalf", unit_price: "123")
 
     @customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
     @customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
     @customer3 = Customer.create(first_name: "Misses", last_name: "Puff")
+    @customer4 = Customer.create(first_name: "Bad", last_name: "Bunny")
+    @customer5 = Customer.create(first_name: "Kendall", last_name: "Jenner")
 
     @invoice1 = Invoice.create(status: 1, customer_id: @customer1.id)
     @invoice2 = Invoice.create(status: 1, customer_id: @customer2.id)
@@ -32,8 +36,8 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     @invoiceitem5 = InvoiceItem.create(quantity: 2, unit_price: 444, status: 0, invoice_id: @invoice3.id, item_id: @item5.id)
     @invoiceitem6 = InvoiceItem.create(quantity: 3, unit_price: 888, status: 0, invoice_id: @invoice4.id, item_id: @item6.id)
     @invoiceitem7 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice4.id, item_id: @item7.id)
-    @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item1.id)
-    @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item2.id)
+    @invoiceitem8 = InvoiceItem.create(quantity: 5, unit_price: 222, status: 1, invoice_id: @invoice5.id, item_id: @item8.id)
+    @invoiceitem9 = InvoiceItem.create(quantity: 10, unit_price: 222, status: 1, invoice_id: @invoice6.id, item_id: @item9.id)
     
     @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
     @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
@@ -153,16 +157,16 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
 
   # US 6
   describe "When I visit my merchant invoice show page" do
-    xit 'Then I see the total revenue for my merchant from this invoice 
+    it 'Then I see the total revenue for my merchant from this invoice 
       (not including discounts) And I see the total discounted revenue for
       my merchant from this invoice which includes bulk discounts in the calculation' do
-      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice1.id}"
-      expect(page).to have_content("Total Revenue: 2997")
-      expect(page).to have_content("Total Discounted Revenue: __")
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice5.id}"
+      expect(page).to have_content("Total Revenue: 1110")
+      expect(page).to have_content("Total Discounted Revenue: 888")
       
-      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice3.id}"
-      expect(page).to have_content("Total Revenue: 1332")
-      expect(page).to have_content("Total Discounted Revenue: __")
+      visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
+      expect(page).to have_content("Total Revenue: 2220")
+      expect(page).to have_content("Total Discounted Revenue: 1665")
 
     end
   end
@@ -180,7 +184,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
         expect(page).to have_content("Discount: 20")
       
         click_link("Bulk Discount #{@bulkdiscount1.id}")
-        expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@bulkdiscount1.id}")
+        expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}")
       end
 
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
@@ -192,7 +196,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
         expect(page).to have_content("Discount: 25")
       
         click_link("Bulk Discount #{@bulkdiscount2.id}")
-        expect(current_path).to eq("/merchants/#{@merchant1.id}/invoices/#{@bulkdiscount2.id}")
+        expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount2.id}")
       end
     end
   end
