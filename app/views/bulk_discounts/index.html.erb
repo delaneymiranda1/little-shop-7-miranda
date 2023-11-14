@@ -2,5 +2,9 @@
 <% @merchant.bulk_discounts.each do |bulk_discount| %>
   <p><b> Quantity: </b><%= bulk_discount.quantity %></p>
   <p><b> Discount: </b><%= bulk_discount.discount %></p>
-  <p><b><%= link_to "Click For More Information on this #{bulk_discount.discount}% off Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" %></h3>
-<% end %>
+  <p><b><%= link_to "Click For More Information on this #{bulk_discount.discount}% off Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}" %></b><br/>
+  <p><b><%= button_to "Delete #{bulk_discount.discount}% off Discount", "/merchants/#{@merchant.id}/bulk_discounts/#{bulk_discount.id}", method: :delete %></b><br/>
+<% end %><br/><br/>
+
+
+<p><%= link_to "Create New Bulk Discount", "/merchants/#{@merchant.id}/bulk_discounts/new" %></p>

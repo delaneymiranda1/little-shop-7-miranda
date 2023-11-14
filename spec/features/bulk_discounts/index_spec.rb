@@ -32,7 +32,7 @@ describe "Merchant Bulk Discounts Index" do
   end
   # US 3
   describe "When I visit my bulk discounts index" do
-    xit 'Then next to each bulk discount I see a button to delete it
+    it 'Then next to each bulk discount I see a button to delete it
       When I click this button
       Then I am redirected back to the bulk discounts index page
       And I no longer see the discount listed' do
@@ -42,7 +42,7 @@ describe "Merchant Bulk Discounts Index" do
       expect(page).to have_content("Discount: 20")
       expect(page).to have_content("Quantity: 10")
       expect(page).to have_content("Discount: 25")
-      click_button "Delete Bulk Discount #{@bulk_discount1.id}"
+      click_button "Delete #{@bulkdiscount1.discount}% off Discount"
       expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
       expect(page).to_not have_content("Quantity: 5")
       expect(page).to_not have_content("Discount: 20")
