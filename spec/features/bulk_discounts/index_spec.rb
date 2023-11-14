@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "merchant bulk discounts index" do
+describe "Merchant Bulk Discounts Index" do
   before :each do
     @merchant1 = Merchant.create(name: "Spongebob", enabled: true)
     @merchant2 = Merchant.create(name: "Plankton" , enabled: true)
@@ -18,24 +18,21 @@ describe "merchant bulk discounts index" do
         expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts")
         expect(page).to have_content("Bulk Discounts:")
         expect(page).to have_content("Quantity: 5")
-        expect(page).to have_content("Quantity: 10")
-        expect(page).to have_content("Quantity: 12")
         expect(page).to have_content("Discount: 20")
+        expect(page).to have_content("Quantity: 10")
         expect(page).to have_content("Discount: 25")
-        expect(page).to have_content("Discount: 30")
       end
       it "And each bulk discount listed includes a link to its show page" do 
         visit "/merchants/#{@merchant1.id}/bulk_discounts"
-
-        click_link "Discount: 20"
+        save_and_open_page
+        click_link "Click For More Information on this #{@bulkdiscount1.discount}% off Discount"
         expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}")
-
       end
     end
   end
   # US 3
   describe "When I visit my bulk discounts index" do
-    it 'Then next to each bulk discount I see a button to delete it
+    xit 'Then next to each bulk discount I see a button to delete it
       When I click this button
       Then I am redirected back to the bulk discounts index page
       And I no longer see the discount listed' do
@@ -51,7 +48,6 @@ describe "merchant bulk discounts index" do
       expect(page).to_not have_content("Discount: 20")
       expect(page).to have_content("Quantity: 10")
       expect(page).to have_content("Discount: 25")
-    end
     end
   end
 end

@@ -5,8 +5,10 @@
 
 <h2>Merchant </h2>
 
+<h3><%= link_to "Merchant Bulk Discounts ", "/merchants/#{@merchant.id}/bulk_discounts" %></h3>
 <h3><%= link_to "Merchant Items Index", "/merchants/#{@merchant.id}/items" %></h3>
 <h3><%= link_to "Merchant Invoices Index", "/merchants/#{@merchant.id}/invoices" %></h3>
+
 
 <h5><%= "Top 5 Customers, # of Transactions" %></h5>
   <% @merchant.top_five_customers.each do |customer| %>
