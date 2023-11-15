@@ -161,11 +161,15 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       (not including discounts) And I see the total discounted revenue for
       my merchant from this invoice which includes bulk discounts in the calculation' do
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice5.id}"
+      expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("Total Revenue: 1110")
+      expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
       expect(page).to have_content("Total Discounted Revenue: 888")
       
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
+      expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("Total Revenue: 2220")
+      expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
       expect(page).to have_content("Total Discounted Revenue: 1665")
 
     end
@@ -184,13 +188,12 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount1.id}")
       
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
-      
+
       expect(page).to_not have_content("Bulk Discount Applied: #{@bulkdiscount1.id}")
       expect(page).to have_content("Bulk Discount Applied: #{@bulkdiscount2.id}")
       
       click_link("Bulk Discount Applied: #{@bulkdiscount2.id}")
       expect(current_path).to eq("/merchants/#{@merchant1.id}/bulk_discounts/#{@bulkdiscount2.id}")
-      
     end
   end
 end

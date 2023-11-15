@@ -3,6 +3,7 @@
 <p><b>Created At:</b> <%= @invoice.formatted_date %></p>
 <p><b>Customer Name:</b> <%= @invoice.customer_name %></p>
 <p><b>Total Revenue: </b><%= @invoice.total_revenue %></p>
+<p><b>Total Discounted Revenue: </b><%= @invoice.total_discounted_revenue %></p>
 
 <%= form_for @invoice, url: "/admin/invoices/#{@invoice.id}", method: :patch do |f| %>
   <b><%= f.label :status, "Invoice Status:" %></b>

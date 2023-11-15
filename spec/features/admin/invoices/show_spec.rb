@@ -170,7 +170,7 @@ RSpec.describe "Admins Invoices Show", type: :feature do
 
   # US 8
   describe "When I visit an admin invoice show page" do
-    xit 'Then I see the total revenue from this invoice (not including discounts)
+    it 'Then I see the total revenue from this invoice (not including discounts)
       And I see the total discounted revenue from this invoice which includes bulk
       discounts in the calculation' do
       visit "/admin/invoices/#{@invoice5.id}"
@@ -180,11 +180,11 @@ RSpec.describe "Admins Invoices Show", type: :feature do
       expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
       expect(page).to have_content("888")
 
-      visit "/admin/invoices/#{@invoice5.id}"
+      visit "/admin/invoices/#{@invoice6.id}"
 
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("2220")
-      expect(page).to have_content("Total Disounted Revenue: #{@total_discounted_revenue}")
+      expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
       expect(page).to have_content("1665")
 
     end
