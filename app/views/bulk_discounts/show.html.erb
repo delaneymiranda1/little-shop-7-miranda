@@ -1,6 +1,8 @@
-<h1> <%= "Bulk Discount: #{@bulk_discount.discount}" %></h1><br/>
+<%= link_to "Back to Bulk Discount Index", "/merchants/#{@merchant.id}/bulk_discounts" %><br/>
+
+<h1> <%= "Bulk Discount: #{@bulk_discount.discount}" %></h1>
 
 <p><b>Quantity Needed to Purchase for Discount to Apply: </b><%= @bulk_discount.quantity %></p>
-<p><b>Discount:</b> <%= "#{@bulk_discount.discount}% off" %></p>
+<p><b>Discount:</b> <%= "#{@bulk_discount.discount}% off" %></p><br/>
 
 <%= link_to "Edit this Discount #{@bulk_discount.id}", "/merchants/#{@bulk_discount.merchant.id}/bulk_discounts/#{@bulk_discount.id}/edit" %>
