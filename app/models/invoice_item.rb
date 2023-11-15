@@ -8,4 +8,8 @@ class InvoiceItem < ApplicationRecord
     self.item.name
   end
 
+  def ii_discount
+    item.merchant.bulk_discounts.where("bulk_discounts.quantity <= ?", quantity).order("bulk_discounts.quantity DESC").first
+  end
+
 end

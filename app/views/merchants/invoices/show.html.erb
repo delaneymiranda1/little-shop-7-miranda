@@ -21,6 +21,10 @@
           <%= f.submit 'Update Item Status' %>
         <% end %>
       </div>
-    <% end %>
+      <% discount = invoice_item.ii_discount %>
+        <% if discount.present? %>
+          <%= link_to "Bulk Discount Applied: #{discount.id}", "/merchants/#{@merchant.id}/bulk_discounts/#{discount.id}" %>
+        <% end %> 
+      <% end %>
   </ul>
 </section>
