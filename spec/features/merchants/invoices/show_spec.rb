@@ -41,7 +41,9 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
     
     @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
     @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
-    @bulkdiscount3 = @merchant2.bulk_discounts.create!(quantity: 12, discount: 30)
+    @bulkdiscount3 = @merchant1.bulk_discounts.create!(quantity: 12, discount: 30)
+    @bulkdiscount4 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 10) # added to ensure highest % is being used for US 6 & 7
+    @bulkdiscount5 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 20) # added to ensure highest % is being used for US 6 & 7
   end
 
   describe "US15. When I visit my merchant's invoices show " do 
@@ -164,12 +166,14 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("Total Revenue: 1110")
       expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
-      expect(page).to have_content("Total Discounted Revenue: 888")
+      expect(page).to_not have_content("Total Discounted Revenue: 999") # added test to ensure that highest discount % is used
+      expect(page).to have_content("Total Discounted Revenue: 888") 
       
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
       expect(page).to have_content("Total Revenue: #{@total_revenue}")
       expect(page).to have_content("Total Revenue: 2220")
       expect(page).to have_content("Total Discounted Revenue: #{@total_discounted_revenue}")
+      expect(page).to_not have_content("Total Discounted Revenue: 1776") # added test to ensure that highest discount % is used
       expect(page).to have_content("Total Discounted Revenue: 1665")
 
     end
@@ -181,7 +185,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       the bulk discount that was applied (if any)' do
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice5.id}"
       
-      expect(page).to_not have_content("Bulk Discount Applied: #{@bulkdiscount2.id}")
+      expect(page).to_not have_content("Bulk Discount Applied: #{@bulkdiscount4.id}") # changed to ensure highest discount used
       expect(page).to have_content("Bulk Discount Applied: #{@bulkdiscount1.id}")
     
       click_link("Bulk Discount Applied: #{@bulkdiscount1.id}")
@@ -189,7 +193,7 @@ RSpec.describe "Merchants Invoices Show", type: :feature do
       
       visit "/merchants/#{@merchant1.id}/invoices/#{@invoice6.id}"
 
-      expect(page).to_not have_content("Bulk Discount Applied: #{@bulkdiscount1.id}")
+      expect(page).to_not have_content("Bulk Discount Applied: #{@bulkdiscount5.id}") # changed to ensure highest discount used
       expect(page).to have_content("Bulk Discount Applied: #{@bulkdiscount2.id}")
       
       click_link("Bulk Discount Applied: #{@bulkdiscount2.id}")

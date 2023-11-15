@@ -27,6 +27,9 @@ RSpec.describe InvoiceItem, type: :model do
 
     @bulkdiscount1 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
     @bulkdiscount2 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
+    @bulkdiscount3 = @merchant1.bulk_discounts.create!(quantity: 12, discount: 30) # added these lines to ensure highest % is used
+    @bulkdiscount4 = @merchant1.bulk_discounts.create!(quantity: 5, discount: 10)
+    @bulkdiscount5 = @merchant1.bulk_discounts.create!(quantity: 10, discount: 20)
   end
 
   describe "#instance_methods" do

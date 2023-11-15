@@ -9,7 +9,8 @@ class InvoiceItem < ApplicationRecord
   end
 
   def ii_discount
-    item.merchant.bulk_discounts.where("bulk_discounts.quantity <= ?", quantity).order("bulk_discounts.quantity DESC").first
+    item.merchant.bulk_discounts.where("bulk_discounts.quantity <= ?", quantity)
+    .order("bulk_discounts.quantity DESC, bulk_discounts.discount DESC").first 
   end
 
 end

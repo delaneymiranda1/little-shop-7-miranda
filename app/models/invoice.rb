@@ -30,7 +30,8 @@ class Invoice < ApplicationRecord
   end
 
   def discount_helper
-    invoice_items.select("invoice_items.id, MAX(bulk_discounts.discount) /100.0 * (invoice_items.unit_price * invoice_items.quantity) as total_discounted_revenue")
+    invoice_items.select("invoice_items.id, MAX(bulk_discounts.discount) /100.0 * 
+      (invoice_items.unit_price * invoice_items.quantity) as total_discounted_revenue")
       .joins(item: {merchant: :bulk_discounts})
       .where("invoice_items.quantity >= bulk_discounts.quantity")
       .group("invoice_items.id")

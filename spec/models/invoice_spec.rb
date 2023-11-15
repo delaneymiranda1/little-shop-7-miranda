@@ -86,11 +86,11 @@ RSpec.describe Invoice, type: :model do
 
   describe "#discount_helper" do
     it 'calculates the amount discounted off of an invoice' do
-      merchant1 = Merchant.create(name: "Spongebob")
-      merchant2 = Merchant.create(name: "Plankton")
+      merchant1 = Merchant.create(name: "Spongebob", enabled: true)
+      merchant2 = Merchant.create(name: "Plankton" , enabled: true)
 
-      item1 = merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "12")
-      item2 = merchant1.items.create(name: "Diet Dr Kelp", description: "spicy", unit_price: "22")
+      item1 = merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
+      item2 = merchant1.items.create(name: "Diet Dr Kelp", description: "spicy", unit_price: "555")
 
       customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
       customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
@@ -103,6 +103,9 @@ RSpec.describe Invoice, type: :model do
 
       bulkdiscount1 = merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
       bulkdiscount2 = merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
+      bulkdiscount3 = merchant1.bulk_discounts.create!(quantity: 12, discount: 30) 
+      bulkdiscount4 = merchant1.bulk_discounts.create!(quantity: 5, discount: 10) # added these to test highest % being used
+      bulkdiscount5 = merchant1.bulk_discounts.create!(quantity: 10, discount: 20) # added these to test highest % being used
 
       expect(invoice1.discount_helper).to eq(12)
       expect(invoice2.discount_helper).to eq(55)
@@ -111,11 +114,11 @@ RSpec.describe Invoice, type: :model do
 
   describe "#total_discounted_revenue" do
     it 'calculates the total revenue after the discount has been applied' do
-      merchant1 = Merchant.create(name: "Spongebob")
-      merchant2 = Merchant.create(name: "Plankton")
+merchant1 = Merchant.create(name: "Spongebob", enabled: true)
+      merchant2 = Merchant.create(name: "Plankton" , enabled: true)
 
-      item1 = merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "12")
-      item2 = merchant1.items.create(name: "Diet Dr Kelp", description: "spicy", unit_price: "22")
+      item1 = merchant1.items.create(name: "Krabby Patty", description: "yummy", unit_price: "999")
+      item2 = merchant1.items.create(name: "Diet Dr Kelp", description: "spicy", unit_price: "555")
 
       customer1 = Customer.create(first_name: "Patrick", last_name: "Star")
       customer2 = Customer.create(first_name: "Sandy", last_name: "Cheeks")
@@ -128,6 +131,9 @@ RSpec.describe Invoice, type: :model do
 
       bulkdiscount1 = merchant1.bulk_discounts.create!(quantity: 5, discount: 20)
       bulkdiscount2 = merchant1.bulk_discounts.create!(quantity: 10, discount: 25)
+      bulkdiscount3 = merchant1.bulk_discounts.create!(quantity: 12, discount: 30)
+      bulkdiscount4 = merchant1.bulk_discounts.create!(quantity: 5, discount: 10)
+      bulkdiscount5 = merchant1.bulk_discounts.create!(quantity: 10, discount: 20)
 
       expect(invoice1.total_discounted_revenue).to eq(48)
       expect(invoice2.total_discounted_revenue).to eq(165)
